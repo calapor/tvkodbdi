@@ -1,0 +1,48 @@
+/* landing.css */
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f7f9fc;
+    min-height: 100vh;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.app-button {
+    background-color: #007bff;
+    color: white;
+    padding: 1.2rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 400px;
+    transition: background-color 0.3s ease;
+}
+
+.app-button:hover {
+    background-color: #0056b3;
+}
+
+@media (min-width: 600px) {
+    .button-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .app-button {
+        flex: 1 1 40%;
+        margin: 0.5rem;
+    }
+}

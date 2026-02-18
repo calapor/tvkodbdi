@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tvkodbdi-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tvkodbdi-frontend
+  template:
+    metadata:
+      labels:
+        app: tvkodbdi-frontend
+    spec:
+      containers:
+        - name: tvkodbdi-frontend
+          image: tvkodbdi-frontend:tag
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tvkodbdi-frontend-service
+spec:
+  selector:
+    app: tvkodbdi-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer # Or NodePort for local clusters
+

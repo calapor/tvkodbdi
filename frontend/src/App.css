@@ -1,0 +1,195 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* -------------------- */
+/* Enhanced Table Style */
+/* -------------------- */
+
+.series-table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.series-table thead {
+  background-color: #007acc;
+  color: #fff;
+  font-weight: bold;
+}
+
+.series-table th,
+.series-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.series-table tbody tr:hover {
+  background-color: #f2f9ff;
+  transition: background-color 0.2s ease;
+}
+
+.series-table tbody tr.download {
+  background-color: #E6B9B9FF;
+  transition: background-color 0.2s ease;
+}
+
+/* Optional: highlight soon upcoming series */
+.series-table td.days-soon {
+  color: #d35400;
+  font-weight: bold;
+}
+
+
+.poster-thumb {
+  height: 60px;
+  margin-right: 10px;
+  vertical-align: middle;
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Optional: highlight ended series */
+.series-table td.series-ended {
+  color: #d35400;
+  font-weight: bold;
+}
+
+/* Responsive (optional) */
+@media (max-width: 768px) {
+  .series-table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .series-table th,
+  .series-table td {
+    padding: 10px;
+  }
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.tab-buttons .tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 12px 20px;
+  margin: 0 5px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-buttons .tab:hover {
+  color: #007acc;
+  border-bottom: 3px solid #007acc;
+}
+
+.tab-buttons .tab.active {
+  color: #007acc;
+  border-bottom: 3px solid #007acc;
+  font-weight: bold;
+}
+
+h1 {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50; /* Deep slate blue */
+  margin: 20px 40px 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+
+/* Short: Light Green */
+.row-short {
+  background-color: #ebfaed; /* Light green */
+}
+
+/* Medium-short: Yellow-green / Orange tint */
+.row-medium-short {
+  background-color: #f5f8e2; /* Light orange-yellow */
+}
+
+/* Medium: Orange */
+.row-medium {
+  background-color: #fbe5d0; /* Soft orange */
+}
+
+/* Long: Red */
+.row-long {
+  background-color: #fbe5e8; /* Light red/pink */
+}
+
+
+
+.bottom-left-link {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.bottom-left-image {
+  height: 40px; /* Adjust size */
+  opacity: 0.38;
+  transition: opacity 0.2s ease;
+}
+
+.bottom-left-image:hover {
+  opacity: 1;
+}
+
+
+
+
