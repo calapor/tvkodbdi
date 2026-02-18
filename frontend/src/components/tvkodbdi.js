@@ -15,6 +15,8 @@ function TVKodiApp() {
     const [runtimeLoading, setRuntimeLoading] = useState(true);
     const [favoritesFromCache, setFavoritesFromCache] = useState(false);
     const [runtimeFromCache, setRuntimeFromCache] = useState(false);
+    const [favoritesError, setFavoritesError] = useState(false);
+    const [runtimeError, setRuntimeError] = useState(false);
 
     useEffect(() => {
         const cachedFavorites = localStorage.getItem('favorites');
@@ -27,8 +29,17 @@ function TVKodiApp() {
         const fetchFavorites = () => {
             //fetch(`${process.env.REACT_APP_BACKEND_URL}/user/favorites`)
             fetch('/api/user/favorites')
-                .then((res) => res.json())
+                .then((res) => {
+                    if (!res.ok) {
+                        setFavoritesError(true);
+                        setLoading(false);
+                        return;
+                    }
+                    setFavoritesError(false);
+                    return res.json();
+                })
                 .then((data) => {
+                    if (!data) return;
                     if (data.fromCache) {
                         setFavorites(data.data);
                         setFavoritesFromCache(true);
@@ -41,6 +52,7 @@ function TVKodiApp() {
                 })
                 .catch((err) => {
                     console.error(err);
+                    setFavoritesError(true);
                     setLoading(false);
                 });
         };
@@ -84,8 +96,17 @@ function TVKodiApp() {
         }
         const fetchRuntimeData = () => {
             fetch('/api/user/lastplayed')
-                .then((res) => res.json())
+                .then((res) => {
+                    if (!res.ok) {
+                        setRuntimeError(true);
+                        setRuntimeLoading(false);
+                        return;
+                    }
+                    setRuntimeError(false);
+                    return res.json();
+                })
                 .then((data) => {
+                    if (!data) return;
                     if (data.fromCache) {
                         setRuntimeData(data.data);
                         setRuntimeFromCache(true);
@@ -98,6 +119,7 @@ function TVKodiApp() {
                 })
                 .catch((err) => {
                     console.error(err);
+                    setRuntimeError(true);
                     setRuntimeLoading(false);
                 });
         };
@@ -135,6 +157,12 @@ function TVKodiApp() {
 
     return (
         <div className="App">
+
+            {(favoritesError || runtimeError) && (
+                <div className="error-banner">
+                    Unable to connect to live data source — backend or external service unreachable
+                </div>
+            )}
 
             {(favoritesFromCache || runtimeFromCache) && (
                 <div className="cache-banner">

@@ -120,6 +120,18 @@
   text-align: center;
 }
 
+.error-banner {
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  border-radius: 4px;
+  padding: 6px 14px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  text-align: center;
+  font-weight: 600;
+}
+
 .tab-buttons {
   display: flex;
   justify-content: center;
