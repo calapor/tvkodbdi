@@ -3,6 +3,8 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const { tvdbCache, TTL } = require('./cache');
+
 const tvdb_api_key = process.env.TVDB_API_KEY;
 
 let token = null;
@@ -16,43 +18,61 @@ async function authenticate() {
 }
 
 async function fetchFavorites() {
-    if (!token) await authenticate();
+    const cacheKey = 'favorites:list';
+    const cached = tvdbCache.get(cacheKey);
+    if (cached) return cached;
 
-    const response = await axios.get(
-        'https://api4.thetvdb.com/v4/user/favorites',
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+        if (!token) await authenticate();
 
-    const seriesIds = response.data.data.series;
-    return Array.isArray(seriesIds) ? seriesIds : [];
+        const response = await axios.get(
+            'https://api4.thetvdb.com/v4/user/favorites',
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        const seriesIds = response.data.data.series;
+        const result = Array.isArray(seriesIds) ? seriesIds : [];
+        tvdbCache.set(cacheKey, result, TTL.FAVORITES);
+        return result;
+    } catch (err) {
+        const stale = tvdbCache.getStale(cacheKey);
+        if (stale) {
+            console.warn('⚠️ TVDB unreachable — using cached favorites list');
+            return stale;
+        }
+        throw err;
+    }
 }
 
 async function getEpisodesForSeries(seriesId) {
-    if (!token) await authenticate();
+    const cacheKey = `episodes:${seriesId}`;
+    const cached = tvdbCache.get(cacheKey);
+    if (cached) return cached;
 
     let allEpisodes = [];
-    let page = 0;
-    let hasMore = true;
 
     try {
-        //while (hasMore) {
-            const response = await axios.get(
-                `https://api4.thetvdb.com/v4/series/${seriesId}/episodes/default`,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            const episodes = response.data.data.episodes || [];  // <-- declare before use
-            if (episodes.length > 0) {
-                allEpisodes = allEpisodes.concat(episodes);
-            } else {
-                hasMore = false;
-            }
-        //}
+        if (!token) await authenticate();
+
+        const response = await axios.get(
+            `https://api4.thetvdb.com/v4/series/${seriesId}/episodes/default`,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const episodes = response.data.data.episodes || [];
+        if (episodes.length > 0) {
+            allEpisodes = allEpisodes.concat(episodes);
+        }
+        tvdbCache.set(cacheKey, allEpisodes, TTL.EPISODES);
+        return allEpisodes;
     } catch (err) {
         console.warn(`⚠️ Error fetching episodes for series ${seriesId}:`, err.response?.status || err.message);
+        const stale = tvdbCache.getStale(cacheKey);
+        if (stale) {
+            console.warn(`⚠️ Using cached episodes for series ${seriesId}`);
+            return stale;
+        }
         return [];
     }
-
-    return allEpisodes;
 }
 
 
@@ -101,21 +121,29 @@ async function getSeriesStatus(seriesId) {
 }
 
 async function getSeriesInfo(seriesId) {
-    if (!token) await authenticate();
+    const cacheKey = `series:${seriesId}`;
+    const cached = tvdbCache.get(cacheKey);
+    if (cached) return cached;
 
-    const response = await axios.get(
-        `https://api4.thetvdb.com/v4/series/${seriesId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
-    return response.data.data || {};
+    try {
+        if (!token) await authenticate();
+
+        const response = await axios.get(
+            `https://api4.thetvdb.com/v4/series/${seriesId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const data = response.data.data || {};
+        tvdbCache.set(cacheKey, data, TTL.SERIES_INFO);
+        return data;
+    } catch (err) {
+        const stale = tvdbCache.getStale(cacheKey);
+        if (stale) {
+            console.warn(`⚠️ TVDB unreachable — using cached series info for ${seriesId}`);
+            return stale;
+        }
+        throw err;
+    }
 }
-
-
-
-
-
-
-
 
 
 async function getEpisodeInfo(seriesId,seasonNumber,episodeNumber) {
