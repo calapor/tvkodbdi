@@ -13,6 +13,8 @@ function TVKodiApp() {
     const [activeTab, setActiveTab] = useState('currentshows')
     const [runtimeData, setRuntimeData] = useState([]);
     const [runtimeLoading, setRuntimeLoading] = useState(true);
+    const [favoritesFromCache, setFavoritesFromCache] = useState(false);
+    const [runtimeFromCache, setRuntimeFromCache] = useState(false);
 
     useEffect(() => {
         const cachedFavorites = localStorage.getItem('favorites');
@@ -27,8 +29,14 @@ function TVKodiApp() {
             fetch('/api/user/favorites')
                 .then((res) => res.json())
                 .then((data) => {
-                    setFavorites(data); // adjust based on your actual response
-                    localStorage.setItem('favorites', JSON.stringify(data)); // cache it
+                    if (data.fromCache) {
+                        setFavorites(data.data);
+                        setFavoritesFromCache(true);
+                    } else {
+                        setFavorites(data);
+                        setFavoritesFromCache(false);
+                        localStorage.setItem('favorites', JSON.stringify(data));
+                    }
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -78,9 +86,14 @@ function TVKodiApp() {
             fetch('/api/user/lastplayed')
                 .then((res) => res.json())
                 .then((data) => {
-                    setRuntimeData(data); // adjust based on your actual response
-                    localStorage.setItem('runtimeData', JSON.stringify(data)); // cache it
-
+                    if (data.fromCache) {
+                        setRuntimeData(data.data);
+                        setRuntimeFromCache(true);
+                    } else {
+                        setRuntimeData(data);
+                        setRuntimeFromCache(false);
+                        localStorage.setItem('runtimeData', JSON.stringify(data));
+                    }
                     setRuntimeLoading(false);
                 })
                 .catch((err) => {
@@ -122,6 +135,12 @@ function TVKodiApp() {
 
     return (
         <div className="App">
+
+            {(favoritesFromCache || runtimeFromCache) && (
+                <div className="cache-banner">
+                    Showing cached data — live source unavailable
+                </div>
+            )}
 
             <div className="tab-buttons">
                 <button

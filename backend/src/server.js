@@ -8,6 +8,7 @@ const { fetchFavorites, getEpisodesForSeries, getSeriesInfo,getSeriesStatus,getE
 const { getTVShows, getMostRecentEpisode, getEpisodeFromKodi,getLastPlayedTVShows,getTVShowDetail,getRecentShowsWithUnwatchedEpisodes,getInProgressTVShows,
     getNextUnWatchedEpisode,refreshKodiLibrary} = require('./kodi-client');
 const { getEpisodeRuntimeFromTMDb} = require('./thetmdb-client');
+const { responseCache, TTL } = require('./cache');
 
 
 const app = express();
@@ -30,6 +31,7 @@ function daysFromNow(dateStr) {
 }
 
 app.get('/user/favorites', async (req, res) => {
+    const CACHE_KEY = 'response:favorites';
     try {
         const [thetvdbFavorites, kodiShows] = await Promise.all([
             fetchFavorites(),
@@ -42,7 +44,6 @@ app.get('/user/favorites', async (req, res) => {
             try {
                 const seriesInfo = await getSeriesInfo(seriesId);
                 const episodes = await getEpisodesForSeries(seriesId);
-                //console.log(`📦 Episodes fetched for series ${seriesId} (${seriesInfo.name}):`, episodes.length,seriesInfo);
                 const today = new Date();
                 const pastEpisodes = episodes.filter(ep => new Date(ep.aired) <= today).filter(ep => ep.seasonNumber !== 0);;
                 const futureEpisodes = episodes.filter(ep => new Date(ep.aired) >= today).filter(ep => ep.seasonNumber !== 0);;
@@ -95,18 +96,31 @@ app.get('/user/favorites', async (req, res) => {
                 });
 
             } catch (error) {
-                //console.error(error);
                 const status = error.response?.status;
                 console.warn(`⚠️ Skipping series ID ${seriesId}. Status: ${status}. Message: ${error.message}`);
                 continue; // skip this series
             }
         }
 
+        responseCache.set(CACHE_KEY, results, TTL.RESPONSE);
         res.json(results);
 
     } catch (err) {
-        console.error(err);
         console.error('❌ Top-level error in /user/favorites:', err.message);
+
+        const cached = responseCache.getStale(CACHE_KEY);
+        if (cached) {
+            const meta = responseCache.getMeta(CACHE_KEY);
+            console.warn('⚠️ Serving cached favorites response from', new Date(meta.cachedAt).toISOString());
+            // Recalculate dynamic date fields from stored air dates so they remain accurate
+            const refreshed = cached.map(show => ({
+                ...show,
+                daysSinceLastAired: show.lastAiredDate ? dayjs().diff(dayjs(show.lastAiredDate), 'day') : null,
+                daysUntilNextAired: show.nextAiredDate ? dayjs(show.nextAiredDate).diff(dayjs(), 'day') : null,
+            }));
+            return res.json({ fromCache: true, cachedAt: meta.cachedAt, data: refreshed });
+        }
+
         res.status(500).json({ error: 'Failed to fetch favorites' });
     }
 });
@@ -115,11 +129,11 @@ app.get('/user/favorites', async (req, res) => {
 
 
 app.get('/user/lastplayed', async (req, res) => {
+    const CACHE_KEY = 'response:lastplayed';
     try {
         const [lastPlayedShows] = await Promise.all([
             getLastPlayedTVShows(), // just gets a list from kodi - it needs to be enriched
         ]);
-       // so at this stage we have Your Honor.
         const results = [];
         for (const showId of lastPlayedShows) {
             if (showId.tvdbid !== null && showId.tvdbid !== undefined) {
@@ -162,13 +176,22 @@ app.get('/user/lastplayed', async (req, res) => {
                     results.push(showId);
                 }
             } catch (error) {
-                console.warn(`⚠️ Skipping series ID ${seriesId}. Message: ${error.message}`);
+                console.warn(`⚠️ Skipping show enrichment. Message: ${error.message}`);
             }
         }
 
+        responseCache.set(CACHE_KEY, results, TTL.RESPONSE);
         res.json(results);
     } catch (err) {
         console.error('❌ Top-level error in /user/lastplayed:', err.message);
+
+        const cached = responseCache.getStale(CACHE_KEY);
+        if (cached) {
+            const meta = responseCache.getMeta(CACHE_KEY);
+            console.warn('⚠️ Serving cached lastplayed response from', new Date(meta.cachedAt).toISOString());
+            return res.json({ fromCache: true, cachedAt: meta.cachedAt, data: cached });
+        }
+
         res.status(500).json({ error: 'Failed to fetch lastplayed' });
     }
 });

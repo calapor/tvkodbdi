@@ -109,6 +109,17 @@
   }
 }
 
+.cache-banner {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 6px 14px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .tab-buttons {
   display: flex;
   justify-content: center;
