@@ -2,6 +2,7 @@ const express = require('express');
 const dayjs = require('dayjs');
 const cors = require('cors');
 require('dotenv').config();
+const router = express.Router();
 
 
 const { fetchFavorites, getEpisodesForSeries, getSeriesInfo,getSeriesStatus,getEpisodeInfo } = require('./thetvdb-client');
@@ -30,7 +31,7 @@ function daysFromNow(dateStr) {
     return date.isValid() ? date.diff(dayjs(), 'day') : null;
 }
 
-app.get('/user/favorites', async (req, res) => {
+router.get('/user/favorites', async (req, res) => {
     const CACHE_KEY = 'response:favorites';
     try {
         const [thetvdbFavorites, kodiShows] = await Promise.all([
@@ -128,7 +129,7 @@ app.get('/user/favorites', async (req, res) => {
 
 
 
-app.get('/user/lastplayed', async (req, res) => {
+router.get('/user/lastplayed', async (req, res) => {
     const CACHE_KEY = 'response:lastplayed';
     try {
         const [lastPlayedShows] = await Promise.all([
@@ -198,7 +199,7 @@ app.get('/user/lastplayed', async (req, res) => {
 
 
 
-app.get('/user/kodirefresh', async (req, res) => {
+router.get('/user/kodirefresh', async (req, res) => {
     try {
         console.log('WE GOT A BACKEND CALL');
         refreshKodiLibrary();
@@ -210,7 +211,7 @@ app.get('/user/kodirefresh', async (req, res) => {
     res.status(200).json({ status: 'OK' });
 });
 
-
+app.use('/api', router);
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}...`);
 });
