@@ -21,13 +21,14 @@ function TVKodiApp() {
     useEffect(() => {
         const cachedFavorites = localStorage.getItem('favorites');
         if (cachedFavorites) {
-            setFavorites(JSON.parse(cachedFavorites));
-            setLoading(false); // show data immediately
+            const parsed = JSON.parse(cachedFavorites);
+            setFavorites(Array.isArray(parsed) ? parsed : []);
+            setLoading(false);
         } else {
-            setLoading(true); // show loading when no cached data
+            setLoading(true);
         }
+
         const fetchFavorites = () => {
-            //fetch(`${process.env.REACT_APP_BACKEND_URL}/user/favorites`)
             fetch('/user/favorites')
                 .then((res) => {
                     if (!res.ok) {
@@ -40,13 +41,12 @@ function TVKodiApp() {
                 })
                 .then((data) => {
                     if (!data) return;
-                    if (data.fromCache) {
-                        setFavorites(data.data);
-                        setFavoritesFromCache(true);
-                    } else {
-                        setFavorites(data);
-                        setFavoritesFromCache(false);
-                        localStorage.setItem('favorites', JSON.stringify(data));
+                    const raw = data.fromCache ? data.data : data;
+                    const safe = Array.isArray(raw) ? raw : []; // ✅ guard API response
+                    setFavorites(safe);
+                    setFavoritesFromCache(!!data.fromCache);
+                    if (!data.fromCache) {
+                        localStorage.setItem('favorites', JSON.stringify(safe));
                     }
                     setLoading(false);
                 })
@@ -56,33 +56,20 @@ function TVKodiApp() {
                     setLoading(false);
                 });
         };
-        // Fetch once immediately
-        //fetchFavorites();
-        //if (document.visibilityState === 'visible') {
-        //    fetchFavorites();
-       // }
-
 
         const handleVisibilityChange = () => {
-            if (document.visibilityState === 'visible') {
-                fetchFavorites(); // or whatever function you'd like
-            }
+            if (document.visibilityState === 'visible') fetchFavorites();
         };
-        // Run on first load if visible
-        if (document.visibilityState === 'visible') {
-            fetchFavorites();
-        }
+
+        if (document.visibilityState === 'visible') fetchFavorites();
+
         document.addEventListener('visibilitychange', handleVisibilityChange);
-        // Cleanup on unmount
+        const intervalId = setInterval(fetchFavorites, POLL_INTERVAL_MS); // ✅ now reachable
+
         return () => {
             document.removeEventListener('visibilitychange', handleVisibilityChange);
+            clearInterval(intervalId); // ✅ single return handles both cleanups
         };
-
-        // Set up polling every xx seconds
-        const intervalId = setInterval(fetchFavorites, POLL_INTERVAL_MS);
-
-        // Clean up on unmount
-        return () => clearInterval(intervalId);
     }, []);
 
 

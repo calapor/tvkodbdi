@@ -50,7 +50,7 @@ export default function CurrentShows({ favorites, loading }) {
                     </tr>
                     </thead>
                     <tbody>
-                    {favorites
+                    {(Array.isArray(favorites) ? favorites : [])
                         .filter(series =>
                             series.nextAiredDate &&
                             !isNaN(new Date(series.nextAiredDate)) &&
