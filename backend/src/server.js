@@ -159,39 +159,29 @@ app.get('/user/lastplayed', async (req, res) => {
             }
             // Enrich each show with detailed info from TheTVDB
             try {
-                console.log("HERE1");
                 if (
                     showId &&
                     showId.nextUnwatched &&
                     (!showId.nextUnwatched.runtime || showId.nextUnwatched.runtime === 0)
                 ){
-                    console.log("HERE2");
-                    console.log("HERE3");
                     results.push(showId);
                     const runtime = await getEpisodeRuntimeFromTMDb(showId.showtitle, showId.nextUnwatched.season, showId.nextUnwatched.episode,showId.tmdbid);
-                    console.log("HERE4");
                     if (runtime) {
                         showId.nextUnwatched.runtime = runtime;
                     }
                     if (runtime) {
                         showId.nextUnwatched.runtime = runtime;
                     }
-                    console.log("HERE5");
                 }
                 else {
-                    console.log("HERE6");
                     results.push(showId);
-                    console.log("HERE6A");
                 }
             } catch (error) {
                 console.warn(`⚠️ Skipping show enrichment. Message: ${error.message}`);
             }
         }
-        console.log("HERE7");
         responseCache.set(CACHE_KEY, results, TTL.RESPONSE);
-        console.log("HERE8");
         res.json(results);
-        console.log("HERE9");
     } catch (err) {
         console.error(err);
         console.error('❌ Top-level error in /user/lastplayed:', err.message);

@@ -28,7 +28,7 @@ function TVKodiApp() {
         }
         const fetchFavorites = () => {
             //fetch(`${process.env.REACT_APP_BACKEND_URL}/user/favorites`)
-            fetch('/api/user/favorites')
+            fetch('/user/favorites')
                 .then((res) => {
                     if (!res.ok) {
                         setFavoritesError(true);
@@ -96,7 +96,7 @@ function TVKodiApp() {
             setRuntimeLoading(true); // show loading when no cached data
         }
         const fetchRuntimeData = () => {
-            fetch('/api/user/lastplayed')
+            fetch('/user/lastplayed')
                 .then((res) => {
                     if (!res.ok) {
                         setRuntimeError(true);
