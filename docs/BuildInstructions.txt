@@ -11,3 +11,15 @@ docker buildx build \
   --build-arg REACT_APP_BACKEND_URL=http://tvkodbdi-backend.default.svc.cluster.local:3000 \
   -t 192.168.1.111:5000/tvkodbdi-frontend:latest \
   --push ./frontend
+
+START REGISTRY FOR LOCAL BUILDS : 
+
+docker start registry
+If that doesn't work (container doesn't exist), spin it up fresh:
+
+docker run -d -p 5000:5000 --name registry registry:2
+To confirm it's running:
+
+docker ps | grep registry
+# or hit the API
+curl http://localhost:5000/v2/_catalog
