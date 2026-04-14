@@ -2,7 +2,7 @@ const express = require('express');
 const dayjs = require('dayjs');
 const cors = require('cors');
 require('dotenv').config();
-const router = express.Router();
+//const router = express.Router();
 
 
 const { fetchFavorites, getEpisodesForSeries, getSeriesInfo,getSeriesStatus,getEpisodeInfo } = require('./thetvdb-client');
@@ -31,7 +31,7 @@ function daysFromNow(dateStr) {
     return date.isValid() ? date.diff(dayjs(), 'day') : null;
 }
 
-router.get('/user/favorites', async (req, res) => {
+app.get('/user/favorites', async (req, res) => {
     const CACHE_KEY = 'response:favorites';
     try {
         const [thetvdbFavorites, kodiShows] = await Promise.all([
@@ -129,7 +129,7 @@ router.get('/user/favorites', async (req, res) => {
 
 
 
-router.get('/user/lastplayed', async (req, res) => {
+app.get('/user/lastplayed', async (req, res) => {
     const CACHE_KEY = 'response:lastplayed';
     try {
         const [lastPlayedShows] = await Promise.all([
@@ -146,7 +146,7 @@ router.get('/user/lastplayed', async (req, res) => {
             const tvshowDetails = lastPlayedShows.find(s => s.tvdbid === showId.tvdbid);
             if (showId.nextUnwatched === null || showId.nextUnwatched === undefined) {
                 console.log("NO NEXT UNWATCHED EPISODE FOR :", showId.showtitle);
-                continue;
+                //continue;
             } else {
                 if (showId.nextUnwatched !== null && showId.nextUnwatched !== undefined && showId.tvdbid !== null && showId.tvdbid !== undefined) {
                     if (showId.tvdbid !== null || showId.tvdbid !== undefined){
@@ -159,31 +159,41 @@ router.get('/user/lastplayed', async (req, res) => {
             }
             // Enrich each show with detailed info from TheTVDB
             try {
+                console.log("HERE1");
                 if (
                     showId &&
                     showId.nextUnwatched &&
                     (!showId.nextUnwatched.runtime || showId.nextUnwatched.runtime === 0)
                 ){
+                    console.log("HERE2");
+                    console.log("HERE3");
                     results.push(showId);
                     const runtime = await getEpisodeRuntimeFromTMDb(showId.showtitle, showId.nextUnwatched.season, showId.nextUnwatched.episode,showId.tmdbid);
+                    console.log("HERE4");
                     if (runtime) {
                         showId.nextUnwatched.runtime = runtime;
                     }
                     if (runtime) {
                         showId.nextUnwatched.runtime = runtime;
                     }
+                    console.log("HERE5");
                 }
                 else {
+                    console.log("HERE6");
                     results.push(showId);
+                    console.log("HERE6A");
                 }
             } catch (error) {
                 console.warn(`⚠️ Skipping show enrichment. Message: ${error.message}`);
             }
         }
-
+        console.log("HERE7");
         responseCache.set(CACHE_KEY, results, TTL.RESPONSE);
+        console.log("HERE8");
         res.json(results);
+        console.log("HERE9");
     } catch (err) {
+        console.error(err);
         console.error('❌ Top-level error in /user/lastplayed:', err.message);
 
         const cached = responseCache.getStale(CACHE_KEY);
@@ -199,7 +209,7 @@ router.get('/user/lastplayed', async (req, res) => {
 
 
 
-router.get('/user/kodirefresh', async (req, res) => {
+app.get('/user/kodirefresh', async (req, res) => {
     try {
         console.log('WE GOT A BACKEND CALL');
         refreshKodiLibrary();
@@ -211,7 +221,7 @@ router.get('/user/kodirefresh', async (req, res) => {
     res.status(200).json({ status: 'OK' });
 });
 
-app.use('/api', router);
+//app.use('/api', router);
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}...`);
 });

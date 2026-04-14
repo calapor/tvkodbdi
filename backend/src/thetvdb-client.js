@@ -141,19 +141,23 @@ async function getSeriesInfo(seriesId) {
             console.warn(`⚠️ TVDB unreachable — using cached series info for ${seriesId}`);
             return stale;
         }
-        throw err;
+        return {};
     }
 }
 
 
-async function getEpisodeInfo(seriesId,seasonNumber,episodeNumber) {
-    const episodes = await getEpisodesForSeries(seriesId);
-    if (!episodes || episodes.length === 0) {
+async function getEpisodeInfo(seriesId, seasonNumber, episodeNumber) {
+    try {
+        const episodes = await getEpisodesForSeries(seriesId);
+        if (!episodes || episodes.length === 0) {
+            return {};
+        }
+        const episode = episodes.find(ep => ep.seasonNumber === seasonNumber && ep.number === episodeNumber);
+        return episode || {};
+    } catch (err) {
+        console.error(`Failed to get episode info for series ${seriesId} S${seasonNumber}E${episodeNumber}:`, err.message);
         return {};
     }
-    const episode = episodes.find(ep => ep.seasonNumber === seasonNumber && ep.number === episodeNumber);
-    return episode || {};
-
 }
 
 

@@ -89,8 +89,9 @@ function TVKodiApp() {
     useEffect(() => {
         const cachedRuntimeData = localStorage.getItem('runtimeData');
         if (cachedRuntimeData) {
-            setRuntimeData(JSON.parse(cachedRuntimeData));
-            setRuntimeLoading(false); // show data immediately
+            const parsed = JSON.parse(cachedRuntimeData);
+            setRuntimeData(Array.isArray(parsed) ? parsed : []); // ✅ not just JSON.parse directly
+            setRuntimeLoading(false);
         } else {
             setRuntimeLoading(true); // show loading when no cached data
         }
@@ -107,13 +108,12 @@ function TVKodiApp() {
                 })
                 .then((data) => {
                     if (!data) return;
-                    if (data.fromCache) {
-                        setRuntimeData(data.data);
-                        setRuntimeFromCache(true);
-                    } else {
-                        setRuntimeData(data);
-                        setRuntimeFromCache(false);
-                        localStorage.setItem('runtimeData', JSON.stringify(data));
+                    const parsed = data.fromCache ? data.data : data;
+                    const safeData = Array.isArray(parsed) ? parsed : []; // ✅
+                    setRuntimeData(safeData);
+                    setRuntimeFromCache(!!data.fromCache);
+                    if (!data.fromCache) {
+                        localStorage.setItem('runtimeData', JSON.stringify(safeData));
                     }
                     setRuntimeLoading(false);
                 })

@@ -21,7 +21,7 @@ export default function ActiveRuntimes({runtimeData, runtimeLoading}) {
                         </tr>
                         </thead>
                         <tbody>
-                        {runtimeData.filter(series =>
+                        {(Array.isArray(runtimeData) ? runtimeData : []).filter(series =>
                             series.lastplayed &&
                             series.nextUnwatched)
                             .sort((a, b) => new Date(b.lastplayed) - new Date(a.lastplayed))
