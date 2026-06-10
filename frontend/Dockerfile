@@ -1,4 +1,7 @@
-FROM node:18 AS build
+# Build stage runs on the NATIVE build platform (amd64 here), not the target
+# arch. The React build only produces static HTML/JS/CSS, which is
+# architecture-independent, so this avoids slow/unstable QEMU emulation of npm.
+FROM --platform=$BUILDPLATFORM node:18 AS build
 
 WORKDIR /app
 
@@ -8,14 +11,16 @@ ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 COPY package*.json ./
 RUN for i in 1 2 3 4 5; do \
       echo "Attempt $i: npm install" && \
-      npm install && break || \
-      echo "npm install failed. Retrying in 5s..." && \
+      npm install && break; \
+      echo "npm install failed (attempt $i/5)"; \
+      [ "$i" = "5" ] && exit 1; \
       sleep 5; \
     done
 
 COPY . .
 RUN npm run build
 
+# Final runtime image is built for the target arch (arm64 for the Pis).
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
