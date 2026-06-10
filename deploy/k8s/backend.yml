@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tvkodbdi-backend-backend
+  name: tvkodbdi-backend
 spec:
   replicas: 1
   selector:
@@ -14,12 +14,13 @@ spec:
     spec:
       containers:
         - name: tvkodbdi-backend
-          image: tvkodbdi-backend:latest
+          image: 192.168.1.111:5000/tvkodbdi-backend:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           envFrom:
             - secretRef:
-                name: backend-secrets
+                name: tvkodbdi-credentials
 
 ---
 apiVersion: v1
