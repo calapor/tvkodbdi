@@ -1,16 +1,16 @@
 // kodi-client.js
 const axios = require('axios');
 const dotenv = require('dotenv');
-//const fetch = require('node-fetch');
-const { fetchSeriesThumbnailAndSeasonFinale } = require('./thetvdb-client');
-
+const { runPool } = require('./concurrency');
 
 dotenv.config();
+
+// Max simultaneous in-flight requests to Kodi (runs on a Pi, so keep modest).
+const KODI_CONCURRENCY = 6;
 
 const kodi_host =  process.env.KODI_HOST;
 const kodi_username = process.env.KODI_USERNAME;
 const kodi_password = process.env.KODI_PASSWORD;
-console.log({kodi_host, kodi_username, kodi_password});
 const kodi = axios.create({
     baseURL: kodi_host,
     auth: {
@@ -68,199 +68,6 @@ async function getEpisodeFromKodi(tvshowid, season, episode) {
 
 
 
-
-
-/*
- Get a list of TV shows that were most recently played
- */
-
-async function getRecentShowsWithUnwatchedEpisodes() {
-    //const response = await axios.post('http://<your-kodi-host>:8080/jsonrpc', {
-    const payload = {
-        jsonrpc: '2.0',
-        method: 'VideoLibrary.GetTVShows',
-        params: {
-            properties: [ 'title', 'playcount', 'lastplayed','imdbnumber'],
-            filter: {
-                field: 'playcount',
-                operator: 'is',
-                value: '0',
-            },
-            sort: {
-                order: 'descending',
-                method: 'lastplayed',
-            },
-            limits: {
-                start: 0,
-                end: 20
-            }
-        },
-        id: 1
-    };
-    const response = await kodi.post('', payload);
-    const tvs = response.data.result.tvshows || [];
-    //return response.data.result.tvshows || [];
-    for (const show of tvs){
-        const latestWatchedEpisodes = getMostRecentWatchedEpisode(show.tvshowid);
-        const latestUnwatchedEpisodes = getMostRecentEpisode(show.tvshowid);
-    }
-    return [];
-    }
-
-
-
-/*
- Get a list of TV shows that were most recently played
- */
-
-async function getRecentShowsWithUnwatchedEpisodes2() {
-    //const response = await axios.post('http://<your-kodi-host>:8080/jsonrpc', {
-        const payload = {
-        jsonrpc: '2.0',
-        method: 'VideoLibrary.GetEpisodes',
-            params: {
-                properties: ['playcount', 'resume', 'title', 'season', 'episode', 'showtitle', 'file', 'tvshowid', 'lastplayed'],
-                filter: {
-                    field: 'inprogress',
-                    operator: 'true'
-                },filter: {
-                    field: 'playcount',
-                    operator: 'is',
-                    value: '0',
-                },
-                limits: {
-                    start: 0,
-                    end: 25
-                },
-                sort: {
-                    order: 'descending',
-                    method: 'lastplayed'
-                }
-            },
-        id: 1
-    };
-    const response = await kodi.post('', payload);
-    const episodes = response.data.result.episodes || [];
-
-    // Group by tvshowid and pick the most recent unwatched episode per show
-    const showsMap = new Map();
-
-    for (const ep of episodes) {
-        if (!showsMap.has(ep.tvshowid)) {
-            showsMap.set(ep.tvshowid, {
-                tvshowid: ep.tvshowid,
-                showtitle: ep.showtitle,
-                lastplayed: ep.lastplayed,
-                nextUnwatched: {
-                    season: ep.season,
-                    episode: ep.episode,
-                    title: ep.title
-                }
-            });
-        }
-    }
-    // Convert map to array and sort by lastplayed
-    const shows = Array.from(showsMap.values())
-        .sort((a, b) => new Date(b.lastplayed) - new Date(a.lastplayed))
-        .slice(0, 20);
-console.log(`This is what we have :`, shows);
-    return shows;
-}
-
-
-
-
-
-
-
-async function getInProgressTVShows() {
-    // Step 1: Get all in-progress episodes
-    //const episodesResponse = await fetch(KODI_URL, {
-    //    method: 'POST',
-    //    headers: { 'Content-Type': 'application/json' },
-    //    body: JSON.stringify({
-    const payload = {
-            jsonrpc: '2.0',
-            id: 1,
-            method: 'VideoLibrary.GetEpisodes',
-        params: {
-            properties: [
-                'title',
-                'season',
-                'episode',
-                'tvshowid',
-                'showtitle',
-                'playcount',
-                'resume',
-                'lastplayed'
-            ],
-            filter: {
-                field: 'playcount',
-                operator: 'lessthan',
-                value: '1'
-            },
-            sort: {
-                method: 'lastplayed',
-                order: 'descending'
-            },
-            limits: { start: 0, end: 200 }
-        }
-
-    };
-    const result = await kodi.post('', payload);
-    const episodes = result.data.result.episodes || [];
-    const inProgressEpisodes = episodes.filter(ep => ep.resume && ep.resume.position > 0);
-    // Step 2: Group by tvshowid
-    const grouped = {};
-    for (const ep of inProgressEpisodes) {
-        const id = ep.tvshowid;
-        if (!grouped[id] || new Date(ep.lastplayed) > new Date(grouped[id].lastplayed)) {
-            grouped[id] = ep;
-        }
-    }
-
-    const tvshowIds = Object.keys(grouped).map(id => Number(id));
-
-    // Step 3: Fetch show details
-    const batchPayload = tvshowIds.map((id, idx) => ({
-        jsonrpc: '2.0',
-        id: idx + 2,
-        method: 'VideoLibrary.GetTVShowDetails',
-        params: {
-            tvshowid: id,
-            properties: ['title', 'thumbnail', 'lastplayed', 'art', 'file']
-        }
-    }));
-    const tvshowResponse = await kodi.post('', batchPayload);
-    console.log(tvshowResponse.data.episodes);
-    const batchResults = tvshowResponse.data;
-   // const tvshowResponse = await fetch(KODI_URL, {
-   //     method: 'POST',
-   //     headers: { 'Content-Type': 'application/json' },
-   //     body: JSON.stringify(batchPayload)
-    //});
-//const tvshows = tvshowResponse;
-    //const temp = tvshowResponse.data.result.episodes || [];
-//console.log(temp)
-const tvshows =  tvshowResponse.data.result;
-
-    // Step 4: Map and sort
-    const resultList = batchResults.map(res => {
-        const show = res.result.tvshowdetails;
-        const ep = grouped[show.tvshowid];
-        return {
-            id: show.tvshowid,
-            title: show.title,
-            thumbnail: show.thumbnail,
-            lastplayed: ep.lastplayed,
-            episodeTitle: ep.title,
-            season: ep.season,
-            episode: ep.episode
-        };
-    }).sort((a, b) => new Date(b.lastplayed) - new Date(a.lastplayed));
-console.log(resultList)
-    return resultList;
-}
 
 
 /*
@@ -378,85 +185,57 @@ async function getLastPlayedTVShows() {
         },
         id: 1
     };
-console.log("made it here");
     const response = await kodi.post('', payload);
-    console.log("made it here2");
 
     const episodes = response.data?.result?.episodes || [];
 
-    const orderedTVShowsMap = new Map();
-    const processedShowIds = new Set();
-
+    // Kodi returns episodes already sorted by lastplayed (descending), so the
+    // first time we see a tvshowid is that show's most-recently-played entry.
+    // Collect the unique shows in that order.
+    const uniqueShows = [];
+    const seenShowIds = new Set();
     for (const ep of episodes) {
+        if (seenShowIds.has(ep.tvshowid)) continue;
+        seenShowIds.add(ep.tvshowid);
+        uniqueShows.push(ep);
+    }
 
-        // Skip in-progress episodes
-       // if (ep.resume?.position > 0) {
-       //     console.log(`⏭ Skipping in-progress: ${ep.showtitle} S${ep.season}E${ep.episode}`);
-       //     continue;
-       // }
+    // Enrich each show with its next-unwatched episode and TVDB/IMDB/TMDB ids.
+    // The two Kodi calls per show are independent, so run them together, and
+    // process shows with bounded concurrency instead of one-at-a-time.
+    const finalList = await runPool(uniqueShows, KODI_CONCURRENCY, async (ep) => {
+        const [nextEp, detailed] = await Promise.all([
+            getNextUnWatchedEpisode(ep.tvshowid),
+            getTVShowDetail(ep.tvshowid),
+        ]);
+
         let nextUnwatched = null;
-
-        //if (ep.playcount === 0) {
-        //    // This episode itself is unwatched
-        //    nextUnwatched = {
-        //        season: ep.season,
-        //        episode: ep.episode,
-        //        title: ep.title,
-        //        episodeid: ep.episodeid,
-        //        runtime: ep.runtime
-        //    };
-        //} else {    // REMOVED THIS ON 3 SEPT 2025
-            // Otherwise, try to find the next unwatched episode
-
-           if (processedShowIds.has(ep.tvshowid)) {
-               // Already processed this show
-               continue;
-           }
-           processedShowIds.add(ep.tvshowid);
-
-            console.log(`🔍 Finding next unwatched for: ${ep.showtitle}`);
-
-            const nextEp = await getNextUnWatchedEpisode(ep.tvshowid);
-            if (nextEp) {
-                nextUnwatched = {
-                    season: nextEp.season,
-                    episode: nextEp.episode,
-                    title: nextEp.title,
-                    episodeid: nextEp.episodeid,
-                    runtime: nextEp.runtime
-                };
-                const showInfo = await getTVShowDetail(ep.tvshowid);
-                if (showInfo) {
-                    nextUnwatched.tvdbid = showInfo.uniqueid?.tvdb || null;
-                    nextUnwatched.imdbid = showInfo.uniqueid?.imdb || null;
-                    nextUnwatched.tmdbid = showInfo.uniqueid?.tmdb || null;
-                }
-                console.log(`   ➡️ Next unwatched for ${ep.showtitle}: S${nextEp.season}E${nextEp.episode} - ${nextEp.title}`);
-            } else {
-                console.log(`   ➡️ No unwatched episodes found for ${ep.showtitle}`);
+        if (nextEp) {
+            nextUnwatched = {
+                season: nextEp.season,
+                episode: nextEp.episode,
+                title: nextEp.title,
+                episodeid: nextEp.episodeid,
+                runtime: nextEp.runtime,
+            };
+            if (detailed) {
+                nextUnwatched.tvdbid = detailed.uniqueid?.tvdb || null;
+                nextUnwatched.imdbid = detailed.uniqueid?.imdb || null;
+                nextUnwatched.tmdbid = detailed.uniqueid?.tmdb || null;
             }
-        //}
+        }
 
-
-        orderedTVShowsMap.set(ep.tvshowid, {
+        return {
             tvshowid: ep.tvshowid,
             showtitle: ep.showtitle,
             lastplayed: ep.lastplayed,
             playcount: ep.playcount,
-            nextUnwatched
-        });
-    }
-    // Add TVDB/IMDB/TMDB IDs
-    for (const show of orderedTVShowsMap.values()) {
-        const detailed = await getTVShowDetail(show.tvshowid);
-        if (detailed) {
-            show.tvdbid = detailed.uniqueid?.tvdb || null;
-            show.imdbid = detailed.uniqueid?.imdb || null;
-            show.tmdbid = detailed.uniqueid?.tmdb || null;
-        }
-    }
-    const finalList = Array.from(orderedTVShowsMap.values());
-    //console.log('✅ Final last played TV shows:', finalList);
+            nextUnwatched,
+            tvdbid: detailed?.uniqueid?.tvdb || null,
+            imdbid: detailed?.uniqueid?.imdb || null,
+            tmdbid: detailed?.uniqueid?.tmdb || null,
+        };
+    });
 
     return finalList;
 }
@@ -515,10 +294,8 @@ module.exports = {
     getEpisodeFromKodi,
     getLastPlayedTVShows,
     getTVShowDetail,
-    getRecentShowsWithUnwatchedEpisodes,
     getEpisodeDetailFromKodi,
     getNextUnWatchedEpisode,
-    getInProgressTVShows,
     refreshKodiLibrary
 };
 
