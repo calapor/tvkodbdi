@@ -17,18 +17,31 @@ async function authenticate() {
     token = response.data.data.token;
 }
 
+/**
+ * Run an authenticated GET against TheTVDB. Lazily authenticates, and if the
+ * token has expired (401) transparently re-authenticates and retries once,
+ * instead of failing the whole request and silently serving stale data.
+ */
+async function tvdbGet(url) {
+    if (!token) await authenticate();
+    try {
+        return await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+    } catch (err) {
+        if (err.response?.status === 401) {
+            await authenticate();
+            return axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+        }
+        throw err;
+    }
+}
+
 async function fetchFavorites() {
     const cacheKey = 'favorites:list';
     const cached = tvdbCache.get(cacheKey);
     if (cached) return cached;
 
     try {
-        if (!token) await authenticate();
-
-        const response = await axios.get(
-            'https://api4.thetvdb.com/v4/user/favorites',
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await tvdbGet('https://api4.thetvdb.com/v4/user/favorites');
 
         const seriesIds = response.data.data.series;
         const result = Array.isArray(seriesIds) ? seriesIds : [];
@@ -52,11 +65,8 @@ async function getEpisodesForSeries(seriesId) {
     let allEpisodes = [];
 
     try {
-        if (!token) await authenticate();
-
-        const response = await axios.get(
-            `https://api4.thetvdb.com/v4/series/${seriesId}/episodes/default`,
-            { headers: { Authorization: `Bearer ${token}` } }
+        const response = await tvdbGet(
+            `https://api4.thetvdb.com/v4/series/${seriesId}/episodes/default`
         );
         const episodes = response.data.data.episodes || [];
         if (episodes.length > 0) {
@@ -82,11 +92,7 @@ async function getSeriesStatus(seriesId) {
     const ended = [];
     try {
 
-        const response = await axios.get(`https://api4.thetvdb.com/v4/series/${seriesId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const response = await tvdbGet(`https://api4.thetvdb.com/v4/series/${seriesId}`);
         if (response.data.data.status !== "Ended")
         {
           ended.push(
@@ -126,12 +132,7 @@ async function getSeriesInfo(seriesId) {
     if (cached) return cached;
 
     try {
-        if (!token) await authenticate();
-
-        const response = await axios.get(
-            `https://api4.thetvdb.com/v4/series/${seriesId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await tvdbGet(`https://api4.thetvdb.com/v4/series/${seriesId}`);
         const data = response.data.data || {};
         tvdbCache.set(cacheKey, data, TTL.SERIES_INFO);
         return data;

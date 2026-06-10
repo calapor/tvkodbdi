@@ -24,6 +24,8 @@ class FileCache {
     constructor(filePath) {
         this.filePath = filePath;
         this.data = this._load();
+        this._dirty = false;
+        this._saveTimer = null;
     }
 
     _load() {
@@ -38,10 +40,30 @@ class FileCache {
         return {};
     }
 
+    /**
+     * Persist the cache to disk. Coalesces the many set() calls made while
+     * serving a single request into one debounced, non-blocking write so we
+     * don't synchronously rewrite the whole file (and block the event loop)
+     * on every individual set().
+     */
     _save() {
+        this._dirty = true;
+        if (this._saveTimer) return;
+        this._saveTimer = setTimeout(() => {
+            this._saveTimer = null;
+            this._flush();
+        }, 50);
+        // Don't let a pending cache write keep the process alive.
+        if (this._saveTimer.unref) this._saveTimer.unref();
+    }
+
+    /** Write the cache to disk immediately (used by the debounced flush). */
+    _flush() {
+        if (!this._dirty) return;
+        this._dirty = false;
         try {
             ensureCacheDir();
-            fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2));
+            fs.writeFileSync(this.filePath, JSON.stringify(this.data));
         } catch (e) {
             console.warn(`⚠️ Cache save failed (${this.filePath}):`, e.message);
         }
@@ -53,6 +75,19 @@ class FileCache {
         if (!entry) return null;
         if (Date.now() > entry.expiresAt) return null;
         return entry.value;
+    }
+
+    /**
+     * Returns the age of a cached entry as a fraction of its total TTL
+     * (0 = just written, 1 = exactly at expiry, >1 = expired). Null if absent.
+     * Used for stale-while-revalidate decisions.
+     */
+    ageFraction(key) {
+        const entry = this.data[key];
+        if (!entry) return null;
+        const ttl = entry.expiresAt - entry.cachedAt;
+        if (ttl <= 0) return 1;
+        return (Date.now() - entry.cachedAt) / ttl;
     }
 
     /** Returns cached value regardless of TTL expiry (offline fallback) */
