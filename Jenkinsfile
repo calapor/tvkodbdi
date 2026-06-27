@@ -37,6 +37,10 @@ spec:
       image: bitnami/kubectl:latest
       command: ["sleep"]
       args: ["infinity"]
+      # run as root so durable-task can write the workspace @tmp control files
+      # (bitnami/kubectl defaults to UID 1001; node/kaniko already run as root)
+      securityContext:
+        runAsUser: 0
       resources:
         requests: { cpu: "50m",  memory: "64Mi" }
         limits:   { cpu: "500m", memory: "256Mi" }
