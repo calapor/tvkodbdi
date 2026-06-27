@@ -53,7 +53,8 @@ spec:
     // Defaults are placeholders for public use; override REGISTRY / NAMESPACE / KANIKO_EXTRA_ARGS
     // via Jenkins global env (Manage Jenkins > System > Global properties).
     // For a local HTTP registry set KANIKO_EXTRA_ARGS='--insecure --skip-tls-verify --insecure-pull'.
-    REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
+    //REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
+    REGISTRY   = '192.168.1.101:30500'
     IMAGE_REPO          = 'thetvdbkodi'
     NAMESPACE           = "${env.NAMESPACE ?: 'thetvdbkodi'}"
     KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
