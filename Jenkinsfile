@@ -119,7 +119,25 @@ spec:
       }
     }
 
-    stage('Build & push images') {
+    stage('Build & push Backend image') {
+      when {
+        expression { env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main' }
+      }
+      steps {
+        container('kaniko') {
+          sh '''
+            /kaniko/executor \
+              --context "dir://$PWD/backend" \
+              --dockerfile "Dockerfile" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/backend:main" \
+              --cache=true ${KANIKO_EXTRA_ARGS}
+          '''
+        }
+      }
+    }
+
+    stage('Build & push Frontend image') {
       when {
         expression { env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main' }
       }
@@ -133,19 +151,11 @@ spec:
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
               --cache=true ${KANIKO_EXTRA_ARGS}
           '''
-          sh '''
-            /kaniko/executor \
-              --context "dir://$PWD/backend" \
-              --dockerfile "Dockerfile" \
-              --destination "${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}" \
-              --destination "${REGISTRY}/${IMAGE_REPO}/backend:main" \
-              --cache=true ${KANIKO_EXTRA_ARGS}
-          '''
         }
       }
     }
 
-    stage('Deploy') {
+    stage('Deploy Backend') {
       when {
         expression { env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main' }
       }
@@ -154,10 +164,24 @@ spec:
           sh '''
             envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
               < deploy/k8s/backend.yml | kubectl apply -n "${NAMESPACE}" -f -
+            kubectl rollout status deployment/tvkodbdi-backend  -n "${NAMESPACE}" --timeout=30m
+          '''
+        }
+      }
+    }
+
+  }
+
+  stage('Deploy Frontend') {
+      when {
+        expression { env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main' }
+      }
+      steps {
+        container('kubectl') {
+          sh '''
             envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
               < deploy/k8s/frontend.yml | kubectl apply -n "${NAMESPACE}" -f -
-            kubectl rollout status deployment/tvkodbdi-backend  -n "${NAMESPACE}" --timeout=5m
-            kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=5m
+            kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=30m
           '''
         }
       }
