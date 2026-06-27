@@ -62,6 +62,16 @@ spec:
     IMAGE_REPO          = 'thetvdbkodi'
     NAMESPACE           = "${env.NAMESPACE ?: 'default'}"
     KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
+    // surface the build parameter as an env var so the kaniko sh block can read it
+    SHOW_DOWNLOADED_COL = "${params.REACT_APP_SHOW_DOWNLOADED_COL}"
+  }
+
+  parameters {
+    booleanParam(
+      name: 'REACT_APP_SHOW_DOWNLOADED_COL',
+      defaultValue: false,
+      description: 'Show the Downloaded column in the frontend'
+    )
   }
 
   stages {
@@ -153,6 +163,7 @@ spec:
               --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
+              --build-arg "REACT_APP_SHOW_DOWNLOADED_COL=${SHOW_DOWNLOADED_COL}" \
               --cache=true --compressed-caching=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
           '''
         }
