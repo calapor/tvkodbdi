@@ -9,13 +9,19 @@ spec:
   serviceAccountName: jenkins-deployer
   securityContext:
     fsGroup: 1000
-  containers:
+    # jnlp pinned with a small request; the cluster is memory-constrained
+    # (~3.7Gi/node) so requests are kept low to let the agent pod schedule.
+    - name: jnlp
+      resources:
+        requests: { cpu: "100m", memory: "256Mi" }
+        limits:   { cpu: "500m", memory: "512Mi" }
+
     - name: node
       image: node:22-bookworm
       command: ["sleep"]
       args: ["infinity"]
       resources:
-        requests: { cpu: "500m", memory: "1Gi" }
+        requests: { cpu: "250m", memory: "640Mi" }
         limits:   { cpu: "2",    memory: "2Gi" }
 
     - name: kaniko
@@ -23,15 +29,15 @@ spec:
       command: ["sleep"]
       args: ["infinity"]
       resources:
-        requests: { cpu: "500m", memory: "1Gi" }
-        limits:   { cpu: "2",    memory: "2.5Gi" }
+        requests: { cpu: "250m", memory: "256Mi" }
+        limits:   { cpu: "2",    memory: "2Gi" }
 
     - name: kubectl
       image: bitnami/kubectl:latest
       command: ["sleep"]
       args: ["infinity"]
       resources:
-        requests: { cpu: "100m", memory: "128Mi" }
+        requests: { cpu: "50m",  memory: "64Mi" }
         limits:   { cpu: "500m", memory: "256Mi" }
 '''
     }
