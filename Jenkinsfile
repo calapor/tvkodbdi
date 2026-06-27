@@ -43,11 +43,15 @@ spec:
   }
 
   environment {
-    // Set REGISTRY to your container registry host, e.g. ghcr.io/youruser or 192.168.x.x:5000
-    // For a local HTTP registry add --insecure --skip-tls-verify to the kaniko executor calls below
-    REGISTRY   = 'your-registry'
-    IMAGE_REPO = 'thetvdbkodi'
-    NAMESPACE  = 'thetvdbkodi'
+    // Defaults are placeholders for public use; override REGISTRY / NAMESPACE / KANIKO_EXTRA_ARGS
+    // via Jenkins global env (Manage Jenkins > System > Global properties).
+    // For a local HTTP registry set KANIKO_EXTRA_ARGS='--insecure --skip-tls-verify --insecure-pull'.
+    REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
+    IMAGE_REPO          = 'thetvdbkodi'
+    NAMESPACE           = "${env.NAMESPACE ?: 'thetvdbkodi'}"
+    KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
+    // e.g. --build-arg REACT_APP_BACKEND_URL=http://<backend-svc>:3000 ; injected via Jenkins env
+    FRONTEND_BUILD_ARGS = "${env.FRONTEND_BUILD_ARGS ?: ''}"
   }
 
   stages {
@@ -78,9 +82,9 @@ spec:
     stage('Verify') {
       steps {
         container('node') {
-          sh 'pnpm --filter frontend run build'
-          sh 'pnpm --filter frontend run test -- --watchAll=false --passWithNoTests'
-          sh 'pnpm --filter backend run test'
+          sh 'pnpm --filter ./frontend run build'
+          sh 'CI=true pnpm --filter ./frontend exec react-scripts test --watchAll=false --passWithNoTests'
+          sh 'pnpm --filter ./backend run test'
         }
       }
     }
@@ -93,19 +97,19 @@ spec:
         container('kaniko') {
           sh '''
             /kaniko/executor \
-              --context "dir://$PWD" \
-              --dockerfile "frontend/Dockerfile" \
+              --context "dir://$PWD/frontend" \
+              --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
-              --cache=true
+              --cache=true ${FRONTEND_BUILD_ARGS} ${KANIKO_EXTRA_ARGS}
           '''
           sh '''
             /kaniko/executor \
-              --context "dir://$PWD" \
-              --dockerfile "backend/Dockerfile" \
+              --context "dir://$PWD/backend" \
+              --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/backend:main" \
-              --cache=true
+              --cache=true ${KANIKO_EXTRA_ARGS}
           '''
         }
       }
