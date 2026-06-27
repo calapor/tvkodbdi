@@ -168,8 +168,6 @@ spec:
           '''
         }
       }
-    }
-
   }
 
   stage('Deploy Frontend') {
@@ -185,8 +183,6 @@ spec:
           '''
         }
       }
-    }
-
   }
 
   post {
