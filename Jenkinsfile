@@ -50,8 +50,6 @@ spec:
     IMAGE_REPO          = 'thetvdbkodi'
     NAMESPACE           = "${env.NAMESPACE ?: 'thetvdbkodi'}"
     KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
-    // e.g. --build-arg REACT_APP_BACKEND_URL=http://<backend-svc>:3000 ; injected via Jenkins env
-    FRONTEND_BUILD_ARGS = "${env.FRONTEND_BUILD_ARGS ?: ''}"
   }
 
   stages {
@@ -101,7 +99,7 @@ spec:
               --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
-              --cache=true ${FRONTEND_BUILD_ARGS} ${KANIKO_EXTRA_ARGS}
+              --cache=true ${KANIKO_EXTRA_ARGS}
           '''
           sh '''
             /kaniko/executor \
