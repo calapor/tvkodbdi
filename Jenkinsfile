@@ -10,12 +10,19 @@ spec:
   securityContext:
     fsGroup: 1000
   containers:
+    # jnlp pinned with a small request; the cluster is memory-constrained
+    # (~3.7Gi/node) so requests are kept low to let the agent pod schedule.
+    - name: jnlp
+      resources:
+        requests: { cpu: "100m", memory: "256Mi" }
+        limits:   { cpu: "500m", memory: "512Mi" }
+
     - name: node
       image: node:22-bookworm
       command: ["sleep"]
       args: ["infinity"]
       resources:
-        requests: { cpu: "500m", memory: "1Gi" }
+        requests: { cpu: "250m", memory: "640Mi" }
         limits:   { cpu: "2",    memory: "2Gi" }
 
     - name: kaniko
@@ -23,15 +30,15 @@ spec:
       command: ["sleep"]
       args: ["infinity"]
       resources:
-        requests: { cpu: "500m", memory: "1Gi" }
-        limits:   { cpu: "2",    memory: "2.5Gi" }
+        requests: { cpu: "250m", memory: "256Mi" }
+        limits:   { cpu: "2",    memory: "2Gi" }
 
     - name: kubectl
       image: bitnami/kubectl:latest
       command: ["sleep"]
       args: ["infinity"]
       resources:
-        requests: { cpu: "100m", memory: "128Mi" }
+        requests: { cpu: "50m",  memory: "64Mi" }
         limits:   { cpu: "500m", memory: "256Mi" }
 '''
     }
@@ -43,11 +50,13 @@ spec:
   }
 
   environment {
-    // Set REGISTRY to your container registry host, e.g. ghcr.io/youruser or 192.168.x.x:5000
-    // For a local HTTP registry add --insecure --skip-tls-verify to the kaniko executor calls below
-    REGISTRY   = 'your-registry'
-    IMAGE_REPO = 'thetvdbkodi'
-    NAMESPACE  = 'thetvdbkodi'
+    // Defaults are placeholders for public use; override REGISTRY / NAMESPACE / KANIKO_EXTRA_ARGS
+    // via Jenkins global env (Manage Jenkins > System > Global properties).
+    // For a local HTTP registry set KANIKO_EXTRA_ARGS='--insecure --skip-tls-verify --insecure-pull'.
+    REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
+    IMAGE_REPO          = 'thetvdbkodi'
+    NAMESPACE           = "${env.NAMESPACE ?: 'thetvdbkodi'}"
+    KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
   }
 
   stages {
@@ -67,6 +76,28 @@ spec:
       }
     }
 
+
+    stage('Debug Branch') {
+      steps {
+        container('node') {
+          sh '''
+            echo "BRANCH_NAME=${BRANCH_NAME}"
+            echo "GIT_BRANCH=${GIT_BRANCH}"
+            echo "WORKSPACE=${WORKSPACE}"
+
+            git config --global --add safe.directory "$WORKSPACE"
+
+            echo "Current branch:"
+            git rev-parse --abbrev-ref HEAD
+
+            echo "Current commit:"
+            git rev-parse HEAD
+          '''
+        }
+
+      }
+    }
+
     stage('Install') {
       steps {
         container('node') {
@@ -78,9 +109,11 @@ spec:
     stage('Verify') {
       steps {
         container('node') {
-          sh 'pnpm --filter frontend run build'
-          sh 'pnpm --filter frontend run test -- --watchAll=false --passWithNoTests'
-          sh 'pnpm --filter backend run test'
+          // CI=false so react-scripts does not promote ESLint warnings to errors
+          // (Jenkins sets CI=true); the image build (Docker/kaniko) builds the same way.
+          sh 'CI=false pnpm --filter ./frontend run build'
+          sh 'CI=true pnpm --filter ./frontend exec react-scripts test --watchAll=false --passWithNoTests'
+          sh 'pnpm --filter ./backend run test'
         }
       }
     }
@@ -93,19 +126,19 @@ spec:
         container('kaniko') {
           sh '''
             /kaniko/executor \
-              --context "dir://$PWD" \
-              --dockerfile "frontend/Dockerfile" \
+              --context "dir://$PWD/frontend" \
+              --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
-              --cache=true
+              --cache=true ${KANIKO_EXTRA_ARGS}
           '''
           sh '''
             /kaniko/executor \
-              --context "dir://$PWD" \
-              --dockerfile "backend/Dockerfile" \
+              --context "dir://$PWD/backend" \
+              --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/backend:main" \
-              --cache=true
+              --cache=true ${KANIKO_EXTRA_ARGS}
           '''
         }
       }
