@@ -1,7 +1,7 @@
 # Build stage runs on the NATIVE build platform (amd64 here), not the target
 # arch. The React build only produces static HTML/JS/CSS, which is
 # architecture-independent, so this avoids slow/unstable QEMU emulation of npm.
-FROM --platform=$BUILDPLATFORM node:18 AS build
+FROM --platform=$BUILDPLATFORM node:20 AS build
 
 WORKDIR /app
 
