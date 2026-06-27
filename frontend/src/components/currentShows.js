@@ -7,18 +7,15 @@ import { searchlink1,
          urllink1,
          urllink2,
          handleKodiClick,
-    slugify
+         slugify
        } from '../utils/common';
 
 
 
-
-
-export default function CurrentShows({ favorites, loading }) {
+export default function CurrentShows({ favorites, loading, showDownloadedCol }) {
 
     const [downloadDomain, setDownloadDomain] = useState(searchlink1);
     const [siteLink, setUrlLink] = useState(urllink1);
-    const isTheTVDB = siteLink.includes('thetvdb');
     const handleDoubleClick = () => {
         setDownloadDomain(prev =>
             prev === searchlink1 ? searchlink2 : searchlink1);
@@ -27,11 +24,6 @@ export default function CurrentShows({ favorites, loading }) {
     };
     return (
         <div onDoubleClick={handleDoubleClick}>
-            {/*
-            < p style={{ fontStyle: 'italic', fontSize: '0.9rem', textAlign: 'right', margin: '0 20px' }}>
-                Link domain: {downloadDomain} (double-click to toggle)
-            </p>
-            */}
 
             <h1>Upcoming Episodes </h1>
             {loading ? (
@@ -44,7 +36,7 @@ export default function CurrentShows({ favorites, loading }) {
                         <th>Name</th>
                         <th>Last Aired</th>
                         <th>Last Episode</th>
-                        <th>Last Downloaded Episode</th>
+                        {showDownloadedCol && <th>Last Downloaded Episode</th>}
                         <th>Next Aired</th>
                         <th>Days until</th>
                     </tr>
@@ -75,59 +67,56 @@ export default function CurrentShows({ favorites, loading }) {
                                 <tr key={series.id}>
 
                                     <td>
-                                        {
-                                            // Construct href based on whether siteLink includes 'thetvdb'
-                                            (() => {
-                                                const isTVDB = siteLink.includes('thetvdb');
-                                                const href = isTVDB
-                                                    ? `${siteLink}/series/${(series.slug ? series.slug : series.name)}`
-                                                    : siteLink;
-
-                                                return (
-                                                    <a
-                                                        href={href}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{marginLeft: '6px', textDecoration: 'none'}}
-                                                    >
-                                                        <img src={series.image} alt={series.name}
-                                                             className="poster-thumb"/>
-                                                    </a>
-                                                );
-                                            })()
-                                        }
+                                        {(() => {
+                                            const isTVDB = siteLink.includes('thetvdb');
+                                            const href = isTVDB
+                                                ? `${siteLink}/series/${(series.slug ? series.slug : series.name)}`
+                                                : siteLink;
+                                            return (
+                                                <a
+                                                    href={href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                >
+                                                    <img src={series.image} alt={series.name}
+                                                         className="poster-thumb"/>
+                                                </a>
+                                            );
+                                        })()}
                                     </td>
-
 
                                     <td>{series.name}</td>
                                     <td>{series.lastAiredDate}</td>
                                     <td>{lastSeason && lastEpisode ? `S${lastSeason}E${lastEpisode}` : ''}</td>
-                                    <td>
-                                        {localSeason && localEpisode ? (
-                                            <>
-                                                {`S${localSeason}E${localEpisode}`}
-                                                {(lastEpisode > localEpisode || lastSeason > localSeason) && (
-                                                    <a
-                                                        href={`${downloadDomain}${series.name.replace(/\s+/g, '-').toLowerCase()}-megusta-x265`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{marginLeft: '6px', textDecoration: 'none'}}
-                                                    >
-                                                        ⚠️
-                                                    </a>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <a
-                                                href={`${downloadDomain}${series.name.replace(/\s+/g, '-').toLowerCase()}-megusta-x265`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{marginLeft: '6px', textDecoration: 'none'}}
-                                            >
-                                                ⚠️
-                                            </a>
-                                        )}
-                                    </td>
+                                    {showDownloadedCol && (
+                                        <td>
+                                            {localSeason && localEpisode ? (
+                                                <>
+                                                    {`S${localSeason}E${localEpisode}`}
+                                                    {(lastEpisode > localEpisode || lastSeason > localSeason) && (
+                                                        <a
+                                                            href={`${downloadDomain}${slugify(series.name)}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                        >
+                                                            ⚠️
+                                                        </a>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <a
+                                                    href={`${downloadDomain}${slugify(series.name)}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                >
+                                                    ⚠️
+                                                </a>
+                                            )}
+                                        </td>
+                                    )}
                                     <td>{series.nextAiredDate}</td>
                                     <td className={daysUntilNext <= 3 ? 'days-soon' : ''}>
                                         {daysUntilNext !== null && daysUntilNext >= 0 ? `${daysUntilNext} days` : '-'}
@@ -150,7 +139,7 @@ export default function CurrentShows({ favorites, loading }) {
                         <th>Name</th>
                         <th>Last Aired</th>
                         <th>Last Episode</th>
-                        <th>Last Downloaded Episode</th>
+                        {showDownloadedCol && <th>Last Downloaded Episode</th>}
                         <th>Days Since Last</th>
                         <th>Series Status</th>
                     </tr>
@@ -179,58 +168,56 @@ export default function CurrentShows({ favorites, loading }) {
                                 <tr key={series.id}>
 
                                     <td>
-                                        {
-                                            // Construct href based on whether siteLink includes 'thetvdb'
-                                            (() => {
-                                                const isTVDB = siteLink.includes('thetvdb');
-                                                const href = isTVDB
-                                                    ? `${siteLink}/series/${(series.slug ? series.slug : series.name)}`
-                                                    : siteLink;
-
-                                                return (
-                                                    <a
-                                                        href={href}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{marginLeft: '6px', textDecoration: 'none'}}
-                                                    >
-                                                        <img src={series.image} alt={series.name}
-                                                             className="poster-thumb"/>
-                                                    </a>
-                                                );
-                                            })()
-                                        }
+                                        {(() => {
+                                            const isTVDB = siteLink.includes('thetvdb');
+                                            const href = isTVDB
+                                                ? `${siteLink}/series/${(series.slug ? series.slug : series.name)}`
+                                                : siteLink;
+                                            return (
+                                                <a
+                                                    href={href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                >
+                                                    <img src={series.image} alt={series.name}
+                                                         className="poster-thumb"/>
+                                                </a>
+                                            );
+                                        })()}
                                     </td>
 
                                     <td>{series.name}</td>
                                     <td>{series.lastAiredDate}</td>
                                     <td>{lastSeason && lastEpisode ? `S${lastSeason}E${lastEpisode}` : ''}</td>
-                                    <td>
-                                        {localSeason && localEpisode ? (
-                                            <>
-                                                {`S${localSeason}E${localEpisode}`}
-                                                {(lastEpisode > localEpisode || lastSeason > localSeason) && (
-                                                    <a
-                                                        href={`${downloadDomain}${series.name.replace(/\s+/g, '-').toLowerCase()}-megusta-x265`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{marginLeft: '6px', textDecoration: 'none'}}
-                                                    >
-                                                        ⚠️
-                                                    </a>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <a
-                                                href={`${downloadDomain}${series.name.replace(/\s+/g, '-').toLowerCase()}-megusta-x265`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{marginLeft: '6px', textDecoration: 'none'}}
-                                            >
-                                                ⚠️
-                                            </a>
-                                        )}
-                                    </td>
+                                    {showDownloadedCol && (
+                                        <td>
+                                            {localSeason && localEpisode ? (
+                                                <>
+                                                    {`S${localSeason}E${localEpisode}`}
+                                                    {(lastEpisode > localEpisode || lastSeason > localSeason) && (
+                                                        <a
+                                                            href={`${downloadDomain}${slugify(series.name)}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                        >
+                                                            ⚠️
+                                                        </a>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <a
+                                                    href={`${downloadDomain}${slugify(series.name)}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                >
+                                                    ⚠️
+                                                </a>
+                                            )}
+                                        </td>
+                                    )}
                                     <td>{daysSinceLast ? `${daysSinceLast * -1} days ago` : '-'}</td>
                                     <td>{series.status}</td>
                                 </tr>
@@ -251,7 +238,7 @@ export default function CurrentShows({ favorites, loading }) {
                         <th>Name</th>
                         <th>Last Aired</th>
                         <th>Last Episode</th>
-                        <th>Last Downloaded Episode</th>
+                        {showDownloadedCol && <th>Last Downloaded Episode</th>}
                         <th>Days Since Last</th>
                     </tr>
                     </thead>
@@ -276,64 +263,60 @@ export default function CurrentShows({ favorites, loading }) {
                                 ? Math.ceil((today - lastAiredDate) / (1000 * 60 * 60 * 24) * -1)
                                 : null;
 
-
                             return (
                                 <tr key={series.id}>
 
                                     <td>
-                                        {
-                                            // Construct href based on whether siteLink includes 'thetvdb'
-                                            (() => {
-                                                const isTVDB = siteLink.includes('thetvdb');
-                                                const href = isTVDB
-                                                    ? `${siteLink}/series/${(series.slug ? series.slug : series.name)}`
-                                                    : siteLink;
-
-                                                return (
-                                                    <a
-                                                        href={href}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{marginLeft: '6px', textDecoration: 'none'}}
-                                                    >
-                                                        <img src={series.image} alt={series.name}
-                                                             className="poster-thumb"/>
-                                                    </a>
-                                                );
-                                            })()
-                                        }
+                                        {(() => {
+                                            const isTVDB = siteLink.includes('thetvdb');
+                                            const href = isTVDB
+                                                ? `${siteLink}/series/${(series.slug ? series.slug : series.name)}`
+                                                : siteLink;
+                                            return (
+                                                <a
+                                                    href={href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                >
+                                                    <img src={series.image} alt={series.name}
+                                                         className="poster-thumb"/>
+                                                </a>
+                                            );
+                                        })()}
                                     </td>
-
 
                                     <td>{series.name}</td>
                                     <td>{series.lastAiredDate}</td>
                                     <td>{lastSeason && lastEpisode ? `S${lastSeason}E${lastEpisode}` : ''}</td>
-                                    <td>
-                                        {localSeason && localEpisode ? (
-                                            <>
-                                                {`S${localSeason}E${localEpisode}`}
-                                                {(lastEpisode > localEpisode || lastSeason > localSeason) && (
-                                                    <a
-                                                        href={`${downloadDomain}${series.name.replace(/\s+/g, '-').toLowerCase()}-megusta-x265`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        style={{marginLeft: '6px', textDecoration: 'none'}}
-                                                    >
-                                                        ⚠️
-                                                    </a>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <a
-                                                href={`${downloadDomain}${series.name.replace(/\s+/g, '-').toLowerCase()}-megusta-x265`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{marginLeft: '6px', textDecoration: 'none'}}
-                                            >
-                                                ⚠️
-                                            </a>
-                                        )}
-                                    </td>
+                                    {showDownloadedCol && (
+                                        <td>
+                                            {localSeason && localEpisode ? (
+                                                <>
+                                                    {`S${localSeason}E${localEpisode}`}
+                                                    {(lastEpisode > localEpisode || lastSeason > localSeason) && (
+                                                        <a
+                                                            href={`${downloadDomain}${slugify(series.name)}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                        >
+                                                            ⚠️
+                                                        </a>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <a
+                                                    href={`${downloadDomain}${slugify(series.name)}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{marginLeft: '6px', textDecoration: 'none'}}
+                                                >
+                                                    ⚠️
+                                                </a>
+                                            )}
+                                        </td>
+                                    )}
                                     <td>
                                         {daysSinceLast !== null
                                             ? `${formatDaysAgo(daysSinceLast)} (${daysSinceLast * -1} days)`

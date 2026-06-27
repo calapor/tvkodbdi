@@ -11,10 +11,10 @@ export const slugify = (text) => {
 };
 
 
-export const searchlink1 = 'https://eztvx.to/search/';
-export const searchlink2 = 'https://thepiratebay.org/search.php?q=';
+export const searchlink1 = 'http://localhost/search.php?q=';
+export const searchlink2 = 'http://127.0.0.1/search.php?q=';
 export const urllink1 = 'https://www.thetvdb.com';
-export const urllink2 = 'http://192.168.1.136:9091/';
+export const urllink2 = 'http://localhost:9091/';
 
 export const handleKodiClick = async () => {
         try {

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: tvkodbdi-backend
-          image: 192.168.1.111:5000/tvkodbdi-backend:latest
+          image: ${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
