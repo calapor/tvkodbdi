@@ -91,6 +91,19 @@ spec:
       }
     }
 
+    stage('Prepare deployment vars') {
+      steps {
+        script {
+            env.FRONTEND_CONFIG_HASH = sh(
+                script: '''
+                    echo -n "${REACT_APP_SHOW_DOWNLOADED_COL}" | sha256sum | cut -d' ' -f1
+                ''',
+                returnStdout: true
+            ).trim()
+        }
+      }
+    }
+
 
     stage('Debug Branch') {
       steps {
@@ -193,7 +206,7 @@ spec:
       steps {
         container('kubectl') {
           sh '''
-            envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
+            envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE} ${FRONTEND_CONFIG_HASH}' \
               < deploy/k8s/frontend.yml | kubectl apply -n "${NAMESPACE}" -f -
             kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=30m
           '''
