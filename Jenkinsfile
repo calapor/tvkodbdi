@@ -9,6 +9,7 @@ spec:
   serviceAccountName: jenkins-deployer
   securityContext:
     fsGroup: 1000
+  containers:
     # jnlp pinned with a small request; the cluster is memory-constrained
     # (~3.7Gi/node) so requests are kept low to let the agent pod schedule.
     - name: jnlp
