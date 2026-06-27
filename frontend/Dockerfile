@@ -20,7 +20,20 @@ RUN for i in 1 2 3 4 5; do \
       sleep 5; \
     done
 
+# Added to debug
+RUN npm install
+
+RUN which npm
+RUN npm ls react-scripts
+RUN ls -l node_modules/.bin/react-scripts
+# end added
+
 COPY . .
+
+# start added to debug 
+RUN npm ls react-scripts
+RUN ls -l node_modules/.bin/react-scripts
+# end added 
 RUN npm run build
 
 # Final runtime image is built for the target arch (arm64 for the Pis).
