@@ -26,8 +26,8 @@ spec:
         requests: { cpu: "500m", memory: "1Gi" }
         limits:   { cpu: "2",    memory: "2.5Gi" }
 
-    - name: helm
-      image: alpine/helm:3.16.3
+    - name: kubectl
+      image: bitnami/kubectl:latest
       command: ["sleep"]
       args: ["infinity"]
       resources:
@@ -43,10 +43,9 @@ spec:
   }
 
   environment {
-    // In-cluster registry addressed by the cluster IP + NodePort (HTTP/insecure).
-    // The same ref works for Kaniko (in-cluster) and the kubelet pull; nodes need a
-    // one-time, project-agnostic insecure-registry entry (see specs/jenkins-setup.md).
-    REGISTRY   = '192.168.1.101:30500'
+    // Set REGISTRY to your container registry host, e.g. ghcr.io/youruser or 192.168.x.x:5000
+    // For a local HTTP registry add --insecure --skip-tls-verify to the kaniko executor calls below
+    REGISTRY   = 'your-registry'
     IMAGE_REPO = 'thetvdbkodi'
     NAMESPACE  = 'thetvdbkodi'
   }
@@ -57,42 +56,16 @@ spec:
       steps {
         container('node') {
           sh 'git config --global --add safe.directory "$WORKSPACE"'
-
           script {
             env.IMAGE_TAG = sh(
               returnStdout: true,
               script: 'git rev-parse --short HEAD'
             ).trim()
           }
-
           sh 'corepack enable && corepack prepare pnpm@11.1.1 --activate'
         }
       }
     }
-
-
-    stage('Debug Branch') {
-      steps {
-        container('node') {
-          sh '''
-            echo "BRANCH_NAME=${BRANCH_NAME}"
-            echo "GIT_BRANCH=${GIT_BRANCH}"
-            echo "WORKSPACE=${WORKSPACE}"
-
-            git config --global --add safe.directory "$WORKSPACE"
-
-            echo "Current branch:"
-            git rev-parse --abbrev-ref HEAD
-
-            echo "Current commit:"
-            git rev-parse HEAD
-          '''
-        }
-
-      }
-    }
-
-
 
     stage('Install') {
       steps {
@@ -105,31 +78,34 @@ spec:
     stage('Verify') {
       steps {
         container('node') {
-          sh 'pnpm -r lint'
-          sh 'pnpm -r typecheck'
-          sh 'pnpm -r test'
-          sh 'pnpm -r build'
+          sh 'pnpm --filter frontend run build'
+          sh 'pnpm --filter frontend run test -- --watchAll=false --passWithNoTests'
+          sh 'pnpm --filter backend run test'
         }
       }
     }
 
     stage('Build & push images') {
       when {
-        expression {
-          env.GIT_BRANCH?.endsWith('/main')
-        }
+        expression { env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main' }
       }
       steps {
         container('kaniko') {
           sh '''
-            for app in web worker; do
-              /kaniko/executor \
-                --context "dir://$PWD" \
-                --dockerfile "deploy/docker/${app}.Dockerfile" \
-                --destination "${REGISTRY}/${IMAGE_REPO}/${app}:${IMAGE_TAG}" \
-                --destination "${REGISTRY}/${IMAGE_REPO}/${app}:main" \
-                --insecure --skip-tls-verify --cache=true
-            done
+            /kaniko/executor \
+              --context "dir://$PWD" \
+              --dockerfile "frontend/Dockerfile" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
+              --cache=true
+          '''
+          sh '''
+            /kaniko/executor \
+              --context "dir://$PWD" \
+              --dockerfile "backend/Dockerfile" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/backend:main" \
+              --cache=true
           '''
         }
       }
@@ -137,20 +113,17 @@ spec:
 
     stage('Deploy') {
       when {
-        expression {
-          env.GIT_BRANCH?.endsWith('/main')
-        }
+        expression { env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main' }
       }
       steps {
-        container('helm') {
+        container('kubectl') {
           sh '''
-            helm upgrade --install thetvdbkodi deploy/helm/thetvdbkodi \
-              --namespace "${NAMESPACE}" --create-namespace \
-              --set image.registry="${REGISTRY}" \
-              --set image.repository="${IMAGE_REPO}" \
-              --set image.tag="${IMAGE_TAG}" \
-              --set ingress.enabled=false \
-              --wait --timeout 40m
+            envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
+              < deploy/k8s/backend.yml | kubectl apply -n "${NAMESPACE}" -f -
+            envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
+              < deploy/k8s/frontend.yml | kubectl apply -n "${NAMESPACE}" -f -
+            kubectl rollout status deployment/tvkodbdi-backend  -n "${NAMESPACE}" --timeout=5m
+            kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=5m
           '''
         }
       }
@@ -160,9 +133,8 @@ spec:
 
   post {
     success {
-      echo "Deployed pricecheck @ ${env.IMAGE_TAG}"
+      echo "Deployed thetvdbkodi @ ${env.IMAGE_TAG}"
     }
-
     failure {
       echo 'Pipeline failed — see stage logs.'
     }

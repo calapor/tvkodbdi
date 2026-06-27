@@ -63,7 +63,6 @@ export default function ActiveRuntimes({runtimeData, runtimeLoading}) {
                                 if (!isNaN(lastplayedDate)) {
                                     const diffTime = today - lastplayedDate;
                                     daysSinceLast = Math.ceil(diffTime / (1000 * 60 * 60 * 24) * -1);
-                                    console.log(daysSinceLast);
                                 }
 
                                 return (

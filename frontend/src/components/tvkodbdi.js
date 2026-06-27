@@ -17,6 +17,7 @@ function TVKodiApp() {
     const [runtimeFromCache, setRuntimeFromCache] = useState(false);
     const [favoritesError, setFavoritesError] = useState(false);
     const [runtimeError, setRuntimeError] = useState(false);
+    const showDownloadedCol = process.env.REACT_APP_SHOW_DOWNLOADED_COL === 'true';
 
     useEffect(() => {
         const cachedFavorites = localStorage.getItem('favorites');
@@ -178,14 +179,13 @@ function TVKodiApp() {
                 </button>
             </div>
 
-
             {/* Conditionally render the tab component and pass props */}
             <div className="tab-content">
                 {activeTab === 'currentshows' && (
-                    <CurrentShows favorites={favorites} loading={loading}/>
+                    <CurrentShows favorites={favorites} loading={loading} showDownloadedCol={showDownloadedCol}/>
                 )}
                 {activeTab === 'endedshows' && (
-                    <EndedShows favorites={favorites} loading={loading}/>
+                    <EndedShows favorites={favorites} loading={loading} showDownloadedCol={showDownloadedCol}/>
                 )}
                 {activeTab === 'runtimedata' && (
                     <ActiveRuntimes runtimeData={runtimeData} runtimeLoading={runtimeLoading}/>

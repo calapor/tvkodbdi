@@ -1,7 +1,7 @@
 docker buildx build  \
   --no-cache \
   --platform linux/arm64 \
-  -t 192.168.1.111:5000/tvkodbdi-backend:latest \
+  -t your-registry/thetvdbkodi/backend:latest \
   --push ./backend
 
 
@@ -9,10 +9,10 @@ docker buildx build \
   --no-cache \
   --platform linux/arm64 \
   --build-arg REACT_APP_BACKEND_URL=http://tvkodbdi-backend.default.svc.cluster.local:3000 \
-  -t 192.168.1.111:5000/tvkodbdi-frontend:latest \
+  -t your-registry/thetvdbkodi/frontend:latest \
   --push ./frontend
 
-START REGISTRY FOR LOCAL BUILDS : 
+START REGISTRY FOR LOCAL BUILDS :
 
 docker start registry
 If that doesn't work (container doesn't exist), spin it up fresh:
