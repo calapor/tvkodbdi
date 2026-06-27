@@ -31,7 +31,7 @@ spec:
       args: ["infinity"]
       resources:
         requests: { cpu: "250m", memory: "256Mi" }
-        limits:   { cpu: "2",    memory: "2Gi" }
+        limits:   { cpu: "2",    memory: "3Gi" }
 
     - name: kubectl
       image: bitnami/kubectl:latest
@@ -56,7 +56,7 @@ spec:
     //REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
     REGISTRY   = '192.168.1.101:30500'
     IMAGE_REPO          = 'thetvdbkodi'
-    NAMESPACE           = "${env.NAMESPACE ?: 'thetvdbkodi'}"
+    NAMESPACE           = "${env.NAMESPACE ?: 'default'}"
     KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
   }
 
@@ -149,7 +149,7 @@ spec:
               --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
-              --cache=true ${KANIKO_EXTRA_ARGS}
+              --cache=true --compressed-caching=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
           '''
         }
       }
