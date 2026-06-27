@@ -164,6 +164,7 @@ spec:
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
               --build-arg "REACT_APP_SHOW_DOWNLOADED_COL=${SHOW_DOWNLOADED_COL}" \
+              --build-arg "REACT_APP_VERSION=${IMAGE_TAG} (#${BUILD_NUMBER})" \
               --cache=true --compressed-caching=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
           '''
         }
