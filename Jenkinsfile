@@ -76,6 +76,28 @@ spec:
       }
     }
 
+
+    stage('Debug Branch') {
+      steps {
+        container('node') {
+          sh '''
+            echo "BRANCH_NAME=${BRANCH_NAME}"
+            echo "GIT_BRANCH=${GIT_BRANCH}"
+            echo "WORKSPACE=${WORKSPACE}"
+
+            git config --global --add safe.directory "$WORKSPACE"
+
+            echo "Current branch:"
+            git rev-parse --abbrev-ref HEAD
+
+            echo "Current commit:"
+            git rev-parse HEAD
+          '''
+        }
+
+      }
+    }
+
     stage('Install') {
       steps {
         container('node') {
