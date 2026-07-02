@@ -149,3 +149,7 @@ docker buildx build \
 
 - **Double-click to toggle search link** — the ⚠️ warning icon on shows that are behind on downloads links to a configurable search URL. Double-click anywhere in the table to switch between the two search URLs. These are set at build time via `REACT_APP_SEARCH_LINK_1` / `REACT_APP_SEARCH_LINK_2` (see the feature-flags table above), so you can point them at your preferred search endpoint without changing code. They fall back to the localhost defaults in `frontend/src/utils/common.js` when unset.
 - **Kodi Refresh button** — the Kodi icon in the bottom-left triggers a Kodi library scan via the backend.
+
+## License
+
+Released under the [MIT License](LICENSE).
