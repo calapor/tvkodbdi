@@ -9,6 +9,21 @@ const APP_VERSION = process.env.REACT_APP_VERSION || 'dev';
 function App() {
   return (
     <Router>
+      <img
+        src={`${process.env.PUBLIC_URL}/tvkodbdi_white.jpg`}
+        alt="tvkodbdi"
+        title="tvkodbdi"
+        style={{
+          position: 'fixed',
+          top: 8,
+          right: 10,
+          height: 40,
+          width: 'auto',
+          opacity: 0.9,
+          pointerEvents: 'none',
+          zIndex: 9999,
+        }}
+      />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/tvkodbdi" element={<TVKodiApp />} />

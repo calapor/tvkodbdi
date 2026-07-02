@@ -1,6 +1,10 @@
+![tvkodbdi — media tracker & reminders](docs/tvkodbdi_white.jpg)
+
 # TheTVDBKodi
 
 A self-hosted web dashboard that tracks your favourite TV shows by aggregating data from [TheTVDB](https://thetvdb.com), [TMDb](https://www.themoviedb.org), and your local [Kodi](https://kodi.tv) library. It shows upcoming episodes, recently aired episodes, ended shows, and active episode runtimes for shows in your Kodi favourites.
+
+> 📚 Project documentation lives in [`specs/`](specs/): [product overview](specs/product-overview.md), [user flows](specs/user-flows.md), [data models](specs/data-models.md), [architecture](specs/architecture.md), and [tech stack](specs/tech-stack.md).
 
 ## Architecture
 
@@ -128,6 +132,8 @@ The `Jenkinsfile` uses a Kubernetes pod agent with three containers: `node` (bui
 | Variable | Default | Description |
 |---|---|---|
 | `REACT_APP_SHOW_DOWNLOADED_COL` | `false` | Set to `true` to show the "Last Downloaded Episode" column in all tables |
+| `REACT_APP_SEARCH_LINK_1` | `http://localhost/search.php?q=` | First search URL toggled by double-clicking a table |
+| `REACT_APP_SEARCH_LINK_2` | `http://127.0.0.1/search.php?q=` | Second search URL toggled by double-clicking a table |
 | `REACT_APP_BACKEND_URL` | _(empty)_ | Override the backend URL baked into the frontend build |
 
 Pass as `--build-arg` when building the Docker image:
@@ -141,5 +147,5 @@ docker buildx build \
 
 ## UI features
 
-- **Double-click to toggle search link** — the ⚠️ warning icon on shows that are behind on downloads links to a configurable search URL. Double-click anywhere in the table to switch between the two URLs defined in `frontend/src/utils/common.js` (`searchlink1` / `searchlink2`). Replace these with your preferred search endpoint.
+- **Double-click to toggle search link** — the ⚠️ warning icon on shows that are behind on downloads links to a configurable search URL. Double-click anywhere in the table to switch between the two search URLs. These are set at build time via `REACT_APP_SEARCH_LINK_1` / `REACT_APP_SEARCH_LINK_2` (see the feature-flags table above), so you can point them at your preferred search endpoint without changing code. They fall back to the localhost defaults in `frontend/src/utils/common.js` when unset.
 - **Kodi Refresh button** — the Kodi icon in the bottom-left triggers a Kodi library scan via the backend.

@@ -57,13 +57,14 @@ spec:
     // Defaults are placeholders for public use; override REGISTRY / NAMESPACE / KANIKO_EXTRA_ARGS
     // via Jenkins global env (Manage Jenkins > System > Global properties).
     // For a local HTTP registry set KANIKO_EXTRA_ARGS='--insecure --skip-tls-verify --insecure-pull'.
-    //REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
-    REGISTRY   = '192.168.1.101:30500'
+    REGISTRY            = "${env.REGISTRY ?: 'your-registry'}"
     IMAGE_REPO          = 'thetvdbkodi'
     NAMESPACE           = "${env.NAMESPACE ?: 'default'}"
     KANIKO_EXTRA_ARGS   = "${env.KANIKO_EXTRA_ARGS ?: ''}"
-    // surface the build parameter as an env var so the kaniko sh block can read it
+    // surface the build parameters as env vars so the kaniko sh block can read them
     SHOW_DOWNLOADED_COL = "${params.REACT_APP_SHOW_DOWNLOADED_COL}"
+    SEARCH_LINK_1       = "${params.REACT_APP_SEARCH_LINK_1}"
+    SEARCH_LINK_2       = "${params.REACT_APP_SEARCH_LINK_2}"
   }
 
   parameters {
@@ -71,6 +72,16 @@ spec:
       name: 'REACT_APP_SHOW_DOWNLOADED_COL',
       defaultValue: false,
       description: 'Show the Downloaded column in the frontend'
+    )
+    string(
+      name: 'REACT_APP_SEARCH_LINK_1',
+      defaultValue: 'http://localhost/search.php?q=',
+      description: 'First search URL toggled by double-clicking a table'
+    )
+    string(
+      name: 'REACT_APP_SEARCH_LINK_2',
+      defaultValue: 'http://127.0.0.1/search.php?q=',
+      description: 'Second search URL toggled by double-clicking a table'
     )
   }
 
@@ -96,7 +107,7 @@ spec:
         script {
             env.FRONTEND_CONFIG_HASH = sh(
                 script: '''
-                    echo -n "${REACT_APP_SHOW_DOWNLOADED_COL}" | sha256sum | cut -d' ' -f1
+                    echo -n "${REACT_APP_SHOW_DOWNLOADED_COL}|${REACT_APP_SEARCH_LINK_1}|${REACT_APP_SEARCH_LINK_2}" | sha256sum | cut -d' ' -f1
                 ''',
                 returnStdout: true
             ).trim()
@@ -177,6 +188,8 @@ spec:
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
               --build-arg "REACT_APP_SHOW_DOWNLOADED_COL=${SHOW_DOWNLOADED_COL}" \
+              --build-arg "REACT_APP_SEARCH_LINK_1=${SEARCH_LINK_1}" \
+              --build-arg "REACT_APP_SEARCH_LINK_2=${SEARCH_LINK_2}" \
               --build-arg "REACT_APP_VERSION=${IMAGE_TAG} (#${BUILD_NUMBER})" \
               --cache=true --compressed-caching=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
           '''

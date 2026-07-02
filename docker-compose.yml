@@ -11,7 +11,13 @@ services:
       - NODE_ENV=production
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        # Override the two double-click search URLs without a code change, e.g.
+        # REACT_APP_SEARCH_LINK_1=https://my-search/?q= docker compose build
+        REACT_APP_SEARCH_LINK_1: ${REACT_APP_SEARCH_LINK_1:-http://localhost/search.php?q=}
+        REACT_APP_SEARCH_LINK_2: ${REACT_APP_SEARCH_LINK_2:-http://127.0.0.1/search.php?q=}
     ports:
       - "80:80"
     depends_on:

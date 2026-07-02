@@ -11,8 +11,11 @@ export const slugify = (text) => {
 };
 
 
-export const searchlink1 = 'http://localhost/search.php?q=';
-export const searchlink2 = 'http://127.0.0.1/search.php?q=';
+// The two search URLs toggled by double-clicking a table. Configured at build
+// time via REACT_APP_SEARCH_LINK_1 / _2 so they can be changed without a code
+// change (see frontend/Dockerfile build args, docker-compose.yml, Jenkinsfile).
+export const searchlink1 = process.env.REACT_APP_SEARCH_LINK_1 || 'http://localhost/search.php?q=';
+export const searchlink2 = process.env.REACT_APP_SEARCH_LINK_2 || 'http://127.0.0.1/search.php?q=';
 export const urllink1 = 'https://www.thetvdb.com';
 export const urllink2 = 'http://localhost:9091/';
 
