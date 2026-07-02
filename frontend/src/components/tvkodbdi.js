@@ -158,25 +158,33 @@ function TVKodiApp() {
                 </div>
             )}
 
-            <div className="tab-buttons">
-                <button
-                    className={activeTab === 'currentshows' ? 'tab active' : 'tab'}
-                    onClick={() => setActiveTab('currentshows')}
-                >
-                    Upcoming Shows
-                </button>
-                <button
-                    className={activeTab === 'endedshows' ? 'tab active' : 'tab'}
-                    onClick={() => setActiveTab('endedshows')}
-                >
-                    Ended Shows
-                </button>
-                <button
-                    className={activeTab === 'runtimedata' ? 'tab active' : 'tab'}
-                    onClick={() => setActiveTab('runtimedata')}
-                >
-                    Active Show Runtimes
-                </button>
+            <div className="app-nav">
+                <img
+                    className="app-logo"
+                    src={`${process.env.PUBLIC_URL}/tvkodbdi_white.jpg`}
+                    alt="tvkodbdi"
+                    title="tvkodbdi"
+                />
+                <div className="tab-buttons">
+                    <button
+                        className={activeTab === 'currentshows' ? 'tab active' : 'tab'}
+                        onClick={() => setActiveTab('currentshows')}
+                    >
+                        Upcoming Shows
+                    </button>
+                    <button
+                        className={activeTab === 'endedshows' ? 'tab active' : 'tab'}
+                        onClick={() => setActiveTab('endedshows')}
+                    >
+                        Ended Shows
+                    </button>
+                    <button
+                        className={activeTab === 'runtimedata' ? 'tab active' : 'tab'}
+                        onClick={() => setActiveTab('runtimedata')}
+                    >
+                        Active Show Runtimes
+                    </button>
+                </div>
             </div>
 
             {/* Conditionally render the tab component and pass props */}
