@@ -14,6 +14,14 @@ ENV REACT_APP_SHOW_DOWNLOADED_COL=$REACT_APP_SHOW_DOWNLOADED_COL
 ARG REACT_APP_VERSION=dev
 ENV REACT_APP_VERSION=$REACT_APP_VERSION
 
+# The two search URLs toggled by double-clicking a table. Override at build time
+# to point at your own search endpoint without touching the source.
+ARG REACT_APP_SEARCH_LINK_1=http://localhost/search.php?q=
+ENV REACT_APP_SEARCH_LINK_1=$REACT_APP_SEARCH_LINK_1
+
+ARG REACT_APP_SEARCH_LINK_2=http://127.0.0.1/search.php?q=
+ENV REACT_APP_SEARCH_LINK_2=$REACT_APP_SEARCH_LINK_2
+
 COPY package*.json ./
 RUN for i in 1 2 3 4 5; do \
       echo "Attempt $i: npm install" && \
