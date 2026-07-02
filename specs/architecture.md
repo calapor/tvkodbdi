@@ -1,13 +1,13 @@
 # Architecture
 
 ## Request flow
-```
-Browser
-  └── React frontend (Nginx, port 80)
-        └── /api/* proxy → Node/Express backend (port 3000)
-                              ├── TheTVDB API
-                              ├── TMDb API
-                              └── Kodi JSON-RPC
+```mermaid
+flowchart TD
+  B[Browser] --> N[React frontend<br/>Nginx :80]
+  N -->|/api/* proxy| E[Node/Express backend :3000]
+  E --> T[TheTVDB API]
+  E --> M[TMDb API]
+  E --> K[Kodi JSON-RPC]
 ```
 
 - The browser never calls upstream APIs directly. Nginx proxies every `/api/*`
