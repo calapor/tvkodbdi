@@ -132,11 +132,24 @@
   font-weight: 600;
 }
 
-.tab-buttons {
+.app-nav {
   display: flex;
-  justify-content: center;
+  align-items: center;
   border-bottom: 2px solid #ccc;
   margin-bottom: 20px;
+}
+
+.app-logo {
+  height: 40px;
+  width: auto;
+  opacity: 0.9;
+  margin-left: 10px;
+}
+
+.tab-buttons {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .tab-buttons .tab {
