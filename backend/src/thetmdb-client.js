@@ -4,9 +4,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
-if (!TMDB_API_KEY) {
-    throw new Error('TMDB_API_KEY is not set in environment variables.');
-}
 
 async function getEpisodeRuntimeFromTMDb(tvShowName, seasonNumber, episodeNumber,tmdbId = null) {
     try {
