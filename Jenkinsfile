@@ -65,6 +65,7 @@ spec:
     SHOW_DOWNLOADED_COL = "${params.REACT_APP_SHOW_DOWNLOADED_COL}"
     SEARCH_LINK_1       = "${params.REACT_APP_SEARCH_LINK_1}"
     SEARCH_LINK_2       = "${params.REACT_APP_SEARCH_LINK_2}"
+    DEPLOY_DEMO         = "${params.DEPLOY_DEMO}"
   }
 
   parameters {
@@ -82,6 +83,11 @@ spec:
       name: 'REACT_APP_SEARCH_LINK_2',
       defaultValue: 'http://127.0.0.1/search.php?q=',
       description: 'Second search URL toggled by double-clicking a table'
+    )
+    booleanParam(
+      name: 'DEPLOY_DEMO',
+      defaultValue: false,
+      description: 'Build and deploy a second demo instance (static data, no Kodi/TVDB calls) on port 30091'
     )
   }
 
@@ -222,6 +228,60 @@ spec:
             envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE} ${FRONTEND_CONFIG_HASH}' \
               < deploy/k8s/frontend.yml | kubectl apply -n "${NAMESPACE}" -f -
             kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=30m
+          '''
+        }
+      }
+    }
+
+    stage('Build & push Frontend Demo image') {
+      when {
+        expression { params.DEPLOY_DEMO == true && (env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main') }
+      }
+      steps {
+        container('kaniko') {
+          sh '''
+            /kaniko/executor \
+              --context "dir://$PWD/frontend" \
+              --dockerfile "Dockerfile" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}-demo" \
+              --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main-demo" \
+              --build-arg "REACT_APP_DEMO=true" \
+              --build-arg "NGINX_CONF=nginx-demo.conf" \
+              --build-arg "REACT_APP_SHOW_DOWNLOADED_COL=${SHOW_DOWNLOADED_COL}" \
+              --build-arg "REACT_APP_SEARCH_LINK_1=${SEARCH_LINK_1}" \
+              --build-arg "REACT_APP_SEARCH_LINK_2=${SEARCH_LINK_2}" \
+              --build-arg "REACT_APP_VERSION=${IMAGE_TAG} (#${BUILD_NUMBER}) demo" \
+              --cache=true --compressed-caching=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
+          '''
+        }
+      }
+    }
+
+    stage('Deploy Backend Demo') {
+      when {
+        expression { params.DEPLOY_DEMO == true && (env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main') }
+      }
+      steps {
+        container('kubectl') {
+          sh '''
+            envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
+              < deploy/k8s/backend-demo.yml | kubectl apply -n "${NAMESPACE}" -f -
+            kubectl rollout status deployment/tvkodbdi-demo-backend -n "${NAMESPACE}" --timeout=30m
+          '''
+        }
+      }
+    }
+
+    stage('Deploy Frontend Demo') {
+      when {
+        expression { params.DEPLOY_DEMO == true && (env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main') }
+      }
+      steps {
+        container('kubectl') {
+          sh '''
+            envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
+              < deploy/k8s/frontend-demo.yml | kubectl apply -n "${NAMESPACE}" -f -
+            kubectl rollout status deployment/tvkodbdi-demo-frontend -n "${NAMESPACE}" --timeout=30m
           '''
         }
       }

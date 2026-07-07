@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tvkodbdi-demo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tvkodbdi-demo-backend
+  template:
+    metadata:
+      labels:
+        app: tvkodbdi-demo-backend
+    spec:
+      containers:
+        - name: tvkodbdi-demo-backend
+          image: ${REGISTRY}/${IMAGE_REPO}/backend:${IMAGE_TAG}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DEMO_MODE
+              value: "true"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tvkodbdi-demo-backend-service
+spec:
+  selector:
+    app: tvkodbdi-demo-backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
