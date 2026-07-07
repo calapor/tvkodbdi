@@ -33,6 +33,14 @@ spec:
         requests: { cpu: "250m", memory: "256Mi" }
         limits:   { cpu: "2",    memory: "3Gi" }
 
+    - name: kaniko-demo
+      image: gcr.io/kaniko-project/executor:v1.23.2-debug
+      command: ["sleep"]
+      args: ["infinity"]
+      resources:
+        requests: { cpu: "250m", memory: "256Mi" }
+        limits:   { cpu: "2",    memory: "3Gi" }
+
     - name: kubectl
       image: bitnami/kubectl:latest
       command: ["sleep"]
@@ -238,7 +246,7 @@ spec:
         expression { params.DEPLOY_DEMO == true && (env.GIT_BRANCH?.endsWith('/main') || env.BRANCH_NAME == 'main') }
       }
       steps {
-        container('kaniko') {
+        container('kaniko-demo') {
           sh '''
             /kaniko/executor \
               --context "dir://$PWD/frontend" \
@@ -251,7 +259,7 @@ spec:
               --build-arg "REACT_APP_SEARCH_LINK_1=${SEARCH_LINK_1}" \
               --build-arg "REACT_APP_SEARCH_LINK_2=${SEARCH_LINK_2}" \
               --build-arg "REACT_APP_VERSION=${IMAGE_TAG} (#${BUILD_NUMBER}) demo" \
-              --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
+              --cache=true --compressed-caching=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
           '''
         }
       }
