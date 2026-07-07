@@ -251,7 +251,7 @@ spec:
               --build-arg "REACT_APP_SEARCH_LINK_1=${SEARCH_LINK_1}" \
               --build-arg "REACT_APP_SEARCH_LINK_2=${SEARCH_LINK_2}" \
               --build-arg "REACT_APP_VERSION=${IMAGE_TAG} (#${BUILD_NUMBER}) demo" \
-              --no-push=false --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
+              --snapshot-mode=redo ${KANIKO_EXTRA_ARGS}
           '''
         }
       }
