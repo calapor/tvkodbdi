@@ -50,7 +50,7 @@ spec:
 
   options {
     disableConcurrentBuilds()
-    timeout(time: 45, unit: 'MINUTES')
+    timeout(time: 90, unit: 'MINUTES')
   }
 
   environment {
@@ -212,7 +212,7 @@ spec:
           sh '''
             envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
               < deploy/k8s/backend.yml | kubectl apply -n "${NAMESPACE}" -f -
-            kubectl rollout status deployment/tvkodbdi-backend  -n "${NAMESPACE}" --timeout=30m
+            kubectl rollout status deployment/tvkodbdi-backend  -n "${NAMESPACE}" --timeout=60m
           '''
         }
       }
@@ -227,7 +227,7 @@ spec:
           sh '''
             envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE} ${FRONTEND_CONFIG_HASH}' \
               < deploy/k8s/frontend.yml | kubectl apply -n "${NAMESPACE}" -f -
-            kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=30m
+            kubectl rollout status deployment/tvkodbdi-frontend -n "${NAMESPACE}" --timeout=60m
           '''
         }
       }
@@ -281,7 +281,7 @@ spec:
           sh '''
             envsubst '${REGISTRY} ${IMAGE_REPO} ${IMAGE_TAG} ${NAMESPACE}' \
               < deploy/k8s/frontend-demo.yml | kubectl apply -n "${NAMESPACE}" -f -
-            kubectl rollout status deployment/tvkodbdi-demo-frontend -n "${NAMESPACE}" --timeout=30m
+            kubectl rollout status deployment/tvkodbdi-demo-frontend -n "${NAMESPACE}" --timeout=60m
           '''
         }
       }
