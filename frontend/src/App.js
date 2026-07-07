@@ -1,7 +1,6 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Landing from './components/landing';
 import TVKodiApp from './components/tvkodbdi';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'dev';
@@ -10,8 +9,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/tvkodbdi" element={<TVKodiApp />} />
+        <Route path="/" element={<TVKodiApp />} />
       </Routes>
       <div
         title="Running build"
