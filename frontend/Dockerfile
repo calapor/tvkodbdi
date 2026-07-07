@@ -11,6 +11,9 @@ ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 ARG REACT_APP_SHOW_DOWNLOADED_COL=false
 ENV REACT_APP_SHOW_DOWNLOADED_COL=$REACT_APP_SHOW_DOWNLOADED_COL
 
+ARG REACT_APP_DEMO=false
+ENV REACT_APP_DEMO=$REACT_APP_DEMO
+
 ARG REACT_APP_VERSION=dev
 ENV REACT_APP_VERSION=$REACT_APP_VERSION
 
@@ -49,8 +52,9 @@ RUN npm run build
 
 # Final runtime image is built for the target arch (arm64 for the Pis).
 FROM nginx:alpine
+ARG NGINX_CONF=nginx.conf
 COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ${NGINX_CONF} /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 

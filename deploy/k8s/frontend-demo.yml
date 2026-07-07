@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tvkodbdi-demo-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tvkodbdi-demo-frontend
+  template:
+    metadata:
+      labels:
+        app: tvkodbdi-demo-frontend
+    spec:
+      containers:
+        - name: tvkodbdi-demo-frontend
+          image: ${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}-demo
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tvkodbdi-demo-frontend-service
+spec:
+  selector:
+    app: tvkodbdi-demo-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30091
+  type: NodePort

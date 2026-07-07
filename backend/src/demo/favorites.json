@@ -1,0 +1,1454 @@
+[
+    {
+        "name": "See",
+        "slug": "see",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/361565/posters/61126bd10a396.jpg",
+        "lastAiredDate": "2022-10-14",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1362,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 8,
+            "title": "I See You",
+            "firstAired": "2022-10-13",
+            "runtime": 3605
+        }
+    },
+    {
+        "name": "Homeland",
+        "slug": "homeland",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/247897-13.jpg",
+        "lastAiredDate": "2020-04-26",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 8,
+            "episode": 12
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2263,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 8,
+            "episode": 12,
+            "title": "Prisoners of War",
+            "firstAired": "2020-04-26",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Deutschland",
+        "slug": "deutschland",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/65e47b9b9d75c.jpg",
+        "lastAiredDate": "2020-09-25",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2111,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 8,
+            "title": "The End of History",
+            "firstAired": "2020-09-25",
+            "runtime": 3065
+        }
+    },
+    {
+        "name": "Game of Thrones",
+        "slug": "game-of-thrones",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/121361-4.jpg",
+        "lastAiredDate": "2019-05-19",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 8,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2606,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 8,
+            "episode": 6,
+            "title": "The Iron Throne",
+            "firstAired": "2019-05-19",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Better Call Saul",
+        "slug": "better-call-saul",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/273181/posters/625dca9d408d4.jpg",
+        "lastAiredDate": "2022-08-15",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 13
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1422,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 6,
+            "episode": 13,
+            "title": "Saul Gone",
+            "firstAired": "2022-08-15",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Fargo",
+        "slug": "fargo",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/posters/269613-3.jpg",
+        "lastAiredDate": "2024-01-16",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 903,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 10,
+            "title": "Bisquik",
+            "firstAired": "2024-01-16",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Peaky Blinders",
+        "slug": "peaky-blinders",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/270915-21.jpg",
+        "lastAiredDate": "2022-04-03",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1556,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 6,
+            "episode": 6,
+            "title": "Lock and Key",
+            "firstAired": "2022-04-03",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Americans (2013)",
+        "slug": "the-americans-2013",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/261690-1.jpg",
+        "lastAiredDate": "2018-05-30",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2960,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 6,
+            "episode": 10,
+            "title": "START",
+            "firstAired": "2018-05-30",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Le Bureau des l\u00e9gendes",
+        "slug": "the-bureau",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/294564-1.jpg",
+        "lastAiredDate": "2020-05-04",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2255,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 10,
+            "title": "Episode 10",
+            "firstAired": "2020-05-04",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Sneaky Pete",
+        "slug": "sneaky-pete",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/300166-2.jpg",
+        "lastAiredDate": "2019-05-10",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2615,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 10,
+            "title": "The Brooklyn Potash",
+            "firstAired": "2019-05-10",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Ozark",
+        "slug": "ozark",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/series/329089/posters/5ea6dc266039f.jpg",
+        "lastAiredDate": "2022-04-29",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 14
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1530,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 14,
+            "title": "A Hard Way to Go",
+            "firstAired": "2022-04-29",
+            "runtime": 4315
+        }
+    },
+    {
+        "name": "The Terror",
+        "slug": "the-terror",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/posters/322191-1.jpg",
+        "lastAiredDate": "2026-06-11",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 26,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 6,
+            "title": "Starry Night",
+            "firstAired": "2026-06-11",
+            "runtime": 2700
+        }
+    },
+    {
+        "name": "Narcos",
+        "slug": "narcos",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/282670-9.jpg",
+        "lastAiredDate": "2017-09-01",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 3231,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 10,
+            "title": "Going Back to Cali",
+            "firstAired": "2017-09-01",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Narcos: Mexico",
+        "slug": "narcos-mexico",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/series/353232/posters/5eb29343e015b.jpg",
+        "lastAiredDate": "2021-11-05",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1705,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 10,
+            "title": "Life in Wartime",
+            "firstAired": "2021-11-05",
+            "runtime": 4134
+        }
+    },
+    {
+        "name": "Brooklyn Nine-Nine",
+        "slug": "brooklyn-nine-nine",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/269586-11.jpg",
+        "lastAiredDate": "2021-09-16",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 8,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1755,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 8,
+            "episode": 9,
+            "title": "The Last Day",
+            "firstAired": "2021-09-16",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Vikings",
+        "slug": "vikings",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/260449-3.jpg",
+        "lastAiredDate": "2021-03-03",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 20
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1952,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 6,
+            "episode": 20,
+            "title": "The Last Act",
+            "firstAired": "2021-03-03",
+            "runtime": 2951
+        }
+    },
+    {
+        "name": "Star Trek: Picard",
+        "slug": "star-trek-picard",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/364093/posters/61e846a7440f8.jpg",
+        "lastAiredDate": "2023-04-20",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1174,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 10,
+            "title": "The Last Generation",
+            "firstAired": "2023-04-20",
+            "runtime": 3773
+        }
+    },
+    {
+        "name": "Schitt's Creek",
+        "slug": "schitts-creek",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/287247-2.jpg",
+        "lastAiredDate": "2020-04-07",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 14
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2282,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 6,
+            "episode": 14,
+            "title": "Happy Ending",
+            "firstAired": "2020-04-07",
+            "runtime": 1484
+        }
+    },
+    {
+        "name": "The Office (US)",
+        "slug": "the-office-us",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/73244-1.jpg",
+        "lastAiredDate": "2013-05-16",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 9,
+            "episode": 23
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 4800,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 9,
+            "episode": 23,
+            "title": "Finale",
+            "firstAired": "2013-05-16",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Parks and Recreation",
+        "slug": "parks-and-recreation",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/84912-1.jpg",
+        "lastAiredDate": "2015-02-24",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 7,
+            "episode": 13
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 4151,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 7,
+            "episode": 13,
+            "title": "One Last Ride (2)",
+            "firstAired": "2015-02-24",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Hunters (2020)",
+        "slug": "hunters-2020",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/372081/posters/63c2b0af075e7.jpg",
+        "lastAiredDate": "2023-01-13",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 2,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1271,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 2,
+            "episode": 8,
+            "title": "The Trial of Adolf Hitler",
+            "firstAired": "2023-01-12",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Man in the High Castle",
+        "slug": "the-man-in-the-high-castle",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/295829-7.jpg",
+        "lastAiredDate": "2019-11-15",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2426,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 10,
+            "title": "Fire from the Gods",
+            "firstAired": "2019-11-15",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Vikings: Valhalla",
+        "slug": "vikings-valhalla",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/372700/posters/61e6ef8cb2759.jpg",
+        "lastAiredDate": "2024-07-11",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 726,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 8,
+            "title": "Destinies",
+            "firstAired": "2024-07-11",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Your Honor",
+        "slug": "your-honor-us",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/359579/posters/63e0ecef1c896.jpg",
+        "lastAiredDate": "2023-03-19",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 2,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1206,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": null
+    },
+    {
+        "name": "Resident Alien",
+        "slug": "resident-alien",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/368166/posters/61f2d06533a24.jpg",
+        "lastAiredDate": "2025-08-08",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 333,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 10,
+            "title": "The End Is Here",
+            "firstAired": "2025-08-08",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Clarkson's Farm",
+        "slug": "clarksons-farm",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/378165/posters/60c46a797adfa.jpg",
+        "lastAiredDate": "2026-06-17",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 20,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 8,
+            "title": "Reaping",
+            "firstAired": "2026-06-17",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Ted Lasso",
+        "slug": "ted-lasso",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/383203/posters/61010b6167190.jpg",
+        "lastAiredDate": "2023-05-31",
+        "nextAiredDate": "2026-08-05",
+        "lastEpisode": {
+            "season": 3,
+            "episode": 12
+        },
+        "nextEpisode": {
+            "season": 4,
+            "episode": 1
+        },
+        "daysSinceLastAired": 1133,
+        "daysUntilNextAired": 28,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 12,
+            "title": "So Long, Farewell",
+            "firstAired": "2023-05-31",
+            "runtime": 4525
+        }
+    },
+    {
+        "name": "Mr Inbetween",
+        "slug": "mr-inbetween",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/5b918305879b6.jpg",
+        "lastAiredDate": "2021-07-13",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 9
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1820,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 9,
+            "title": "I'm Not Leaving",
+            "firstAired": "2021-07-13",
+            "runtime": 2061
+        }
+    },
+    {
+        "name": "Slow Horses",
+        "slug": "slow-horses",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/372264/posters/637d209da8190.jpg",
+        "lastAiredDate": "2025-10-29",
+        "nextAiredDate": "2026-09-16",
+        "lastEpisode": {
+            "season": 5,
+            "episode": 6
+        },
+        "nextEpisode": {
+            "season": 6,
+            "episode": 1
+        },
+        "daysSinceLastAired": 251,
+        "daysUntilNextAired": 70,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 6,
+            "title": "Scars",
+            "firstAired": "2025-10-29",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Succession",
+        "slug": "succession",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/338186/posters/6401dad505603.jpg",
+        "lastAiredDate": "2023-05-28",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1136,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 10,
+            "title": "With Open Eyes",
+            "firstAired": "2023-05-28",
+            "runtime": 5306
+        }
+    },
+    {
+        "name": "House of the Dragon",
+        "slug": "house-of-the-dragon",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/371572/posters/6314b92a64a1f.jpg",
+        "lastAiredDate": "2026-07-05",
+        "nextAiredDate": "2026-07-12",
+        "lastEpisode": {
+            "season": 3,
+            "episode": 3
+        },
+        "nextEpisode": {
+            "season": 3,
+            "episode": 4
+        },
+        "daysSinceLastAired": 2,
+        "daysUntilNextAired": 4,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 2,
+            "title": "Queen's Landing",
+            "firstAired": "2026-06-28",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Severance",
+        "slug": "severance",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/371980/posters/621096b26f0e2.jpg",
+        "lastAiredDate": "2025-03-20",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 2,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 474,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 2,
+            "episode": 10,
+            "title": "Cold Harbor",
+            "firstAired": "2025-03-20",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Last of Us",
+        "slug": "the-last-of-us",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/392256/posters/6362e8b41ca10.jpg",
+        "lastAiredDate": "2025-05-25",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 2,
+            "episode": 7
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 408,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 2,
+            "episode": 7,
+            "title": "Convergence",
+            "firstAired": "2025-05-25",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Diplomat",
+        "slug": "the-diplomat",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/415239/posters/642dfff5b602b.jpg",
+        "lastAiredDate": "2025-10-16",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 264,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 8,
+            "title": "Schrodinger's Wife",
+            "firstAired": "2025-10-16",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Welcome to Wrexham",
+        "slug": "welcome-to-wrexham",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/403119/posters/62fab820688a6.jpg",
+        "lastAiredDate": "2026-06-25",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 12,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 8,
+            "title": "We Go Again",
+            "firstAired": "2026-06-25",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Barry",
+        "slug": "barry",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/333072-3.jpg",
+        "lastAiredDate": "2023-05-28",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1136,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 8,
+            "title": "wow",
+            "firstAired": "2023-05-28",
+            "runtime": 2064
+        }
+    },
+    {
+        "name": "The Bear",
+        "slug": "the-bear",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/403294/posters/62cb2fad70271.jpg",
+        "lastAiredDate": "2026-06-25",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 12,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 8,
+            "title": "The Original Beef of Chicagoland",
+            "firstAired": "2026-06-25",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "3 Body Problem",
+        "slug": "three-body-problem",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/411959/posters/68330f13e1538.jpg",
+        "lastAiredDate": "2024-03-21",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 838,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 8,
+            "title": "Wallfacer",
+            "firstAired": "2024-03-21",
+            "runtime": 3402
+        }
+    },
+    {
+        "name": "Fallout",
+        "slug": "fallout",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/416744/posters/656c96bea0c11.jpg",
+        "lastAiredDate": "2026-02-03",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 2,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 154,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 2,
+            "episode": 8,
+            "title": "The Strip",
+            "firstAired": "2026-02-03",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "True Detective",
+        "slug": "true-detective",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/posters/270633-3.jpg",
+        "lastAiredDate": "2024-02-18",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 870,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 6,
+            "title": "Night Country: Part 6",
+            "firstAired": "2024-02-18",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "For All Mankind",
+        "slug": "for-all-mankind",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/series/356202/posters/600304db98362.jpg",
+        "lastAiredDate": "2026-05-29",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 39,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 10,
+            "title": "This Land Is Our Land",
+            "firstAired": "2026-05-28",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Walking Dead",
+        "slug": "the-walking-dead",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/153021/posters/60fd8577d1a96.jpg",
+        "lastAiredDate": "2022-11-20",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 11,
+            "episode": 24
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1325,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 9,
+            "episode": 16,
+            "title": "The Storm",
+            "firstAired": "2019-03-31",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Day of the Jackal",
+        "slug": "the-day-of-the-jackal",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/426866/posters/67088be6da5f5.jpg",
+        "lastAiredDate": "2024-12-12",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 572,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 10,
+            "title": "Episode 10",
+            "firstAired": "2024-12-12",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "\uc624\uc9d5\uc5b4 \uac8c\uc784",
+        "slug": "squid-game",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/383275/posters/6151351c5420c.jpg",
+        "lastAiredDate": "2025-06-27",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 375,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 6,
+            "title": "Humans Are...",
+            "firstAired": "2025-06-27",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Dark Matter (2024)",
+        "slug": "dark-matter-2022",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/393159/posters/66192e346b768.jpg",
+        "lastAiredDate": "2024-06-26",
+        "nextAiredDate": "2026-08-28",
+        "lastEpisode": {
+            "season": 1,
+            "episode": 9
+        },
+        "nextEpisode": {
+            "season": 2,
+            "episode": 1
+        },
+        "daysSinceLastAired": 741,
+        "daysUntilNextAired": 51,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 9,
+            "title": "Entanglement",
+            "firstAired": "2024-06-25",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "MobLand",
+        "slug": "the-donovans",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/446831/posters/6848ac1968864.jpg",
+        "lastAiredDate": "2025-06-01",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 401,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 10,
+            "title": "The Beast in Me",
+            "firstAired": "2025-06-01",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Pitt",
+        "slug": "the-pitt",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/448176/posters/6794b532ba509.jpg",
+        "lastAiredDate": "2026-04-16",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 2,
+            "episode": 15
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 82,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 2,
+            "episode": 15,
+            "title": "9:00 P.M.",
+            "firstAired": "2026-04-16",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Studio (2025)",
+        "slug": "the-studio-2024",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/448147/posters/685fba8c106ca.jpg",
+        "lastAiredDate": "2025-05-21",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 412,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": null
+    },
+    {
+        "name": "The Spy",
+        "slug": "the-spy",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/368109/posters/6283c52e66c3a.jpg",
+        "lastAiredDate": "2019-09-06",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2496,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 6,
+            "title": "Home",
+            "firstAired": "2019-09-06",
+            "runtime": 3752
+        }
+    },
+    {
+        "name": "The Sopranos",
+        "slug": "the-sopranos",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/75299-17.jpg",
+        "lastAiredDate": "2007-06-10",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 21
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 6967,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 6,
+            "episode": 21,
+            "title": "Made in America",
+            "firstAired": "2007-06-10",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Baby Reindeer",
+        "slug": "baby-reindeer",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/417223/posters/669c772204c1b.jpg",
+        "lastAiredDate": "2024-04-11",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 7
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 817,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 7,
+            "title": "Episode 7",
+            "firstAired": "2024-04-11",
+            "runtime": 1889
+        }
+    },
+    {
+        "name": "Black Mirror",
+        "slug": "black-mirror",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/posters/253463-4.jpg",
+        "lastAiredDate": "2025-04-10",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 7,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 453,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 6,
+            "title": "Hated in the Nation",
+            "firstAired": "2016-10-21",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Breaking Bad",
+        "slug": "breaking-bad",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/81189-10.jpg",
+        "lastAiredDate": "2013-09-29",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 5,
+            "episode": 16
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 4664,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 5,
+            "episode": 16,
+            "title": "Felina",
+            "firstAired": "2013-09-29",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Bridgerton",
+        "slug": "bridgerton",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/366668/posters/625300b76b361.jpg",
+        "lastAiredDate": "2026-02-26",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 4,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 131,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 8,
+            "title": "Dance in the Country",
+            "firstAired": "2026-02-26",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Chernobyl",
+        "slug": "chernobyl",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/5d218b09c7dc3.jpg",
+        "lastAiredDate": "2019-06-03",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 5
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2591,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 5,
+            "title": "Vichnaya Pamyat",
+            "firstAired": "2019-06-03",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Father Ted",
+        "slug": "father-ted",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/75842/posters/696ccdee76f41.jpg",
+        "lastAiredDate": "1998-05-01",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 10294,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 8,
+            "title": "Going to America",
+            "firstAired": "1998-05-01",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "House of Cards (US)",
+        "slug": "house-of-cards-us",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/posters/262980-3.jpg",
+        "lastAiredDate": "2018-11-02",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 6,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 2804,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 4,
+            "episode": 13,
+            "title": "Chapter 52",
+            "firstAired": "2016-03-04",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "\u05d0\u05d5\u05e8 \u05e8\u05d0\u05e9\u05d5\u05df",
+        "slug": "red-alert",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/468439/posters/699a040060b2c.jpg",
+        "lastAiredDate": "2025-10-15",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 4
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 265,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": null
+    },
+    {
+        "name": "PLUR1BUS",
+        "slug": "wycaro",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/436457/posters/68e7e3997a36a.jpg",
+        "lastAiredDate": "2025-12-24",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 9
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 195,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 9,
+            "title": "La Chica o El Mundo",
+            "firstAired": "2025-12-23",
+            "runtime": 3432
+        }
+    },
+    {
+        "name": "A Knight of the Seven Kingdoms",
+        "slug": "a-knight-of-the-seven-kingdoms-the-hedge-knight",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/433631/posters/6934ab862334f.jpg",
+        "lastAiredDate": "2026-02-22",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 6
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 135,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 6,
+            "title": "The Morrow",
+            "firstAired": "2026-02-22",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Beast in Me",
+        "slug": "the-beast-in-me",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/448245/posters/68f6cffc63f17.jpg",
+        "lastAiredDate": "2025-11-13",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 236,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 8,
+            "title": "The Last Word",
+            "firstAired": "2025-11-13",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Rooster",
+        "slug": "a-complicated-daughter",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/457770/posters/69878166f269c.jpg",
+        "lastAiredDate": "2026-05-10",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 58,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 10,
+            "title": "Songs for Raisa",
+            "firstAired": "2026-05-10",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "The Mandalorian",
+        "slug": "the-mandalorian",
+        "status": "Ended",
+        "image": "https://artworks.thetvdb.com/banners/series/361753/posters/6403f8c42f916.jpg",
+        "lastAiredDate": "2023-04-19",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 3,
+            "episode": 8
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 1175,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 3,
+            "episode": 8,
+            "title": "Chapter 24: The Return",
+            "firstAired": "2023-04-19",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Widow's Bay",
+        "slug": "widows-bay",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/454109/posters/69d1a63ba34e6.jpg",
+        "lastAiredDate": "2026-06-17",
+        "nextAiredDate": null,
+        "lastEpisode": {
+            "season": 1,
+            "episode": 10
+        },
+        "nextEpisode": null,
+        "daysSinceLastAired": 20,
+        "daysUntilNextAired": null,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 10,
+            "title": "We Hope You Enjoyed Your Time!",
+            "firstAired": "2026-06-16",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Star City",
+        "slug": "star-city-449146",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/449146/posters/6a0e1f176a889.jpg",
+        "lastAiredDate": "2026-07-03",
+        "nextAiredDate": "2026-07-10",
+        "lastEpisode": {
+            "season": 1,
+            "episode": 7
+        },
+        "nextEpisode": {
+            "season": 1,
+            "episode": 8
+        },
+        "daysSinceLastAired": 4,
+        "daysUntilNextAired": 2,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 7,
+            "title": "Plow Deep",
+            "firstAired": "2026-07-02",
+            "runtime": 0
+        }
+    },
+    {
+        "name": "Cape Fear",
+        "slug": "cape-fear",
+        "status": "Continuing",
+        "image": "https://artworks.thetvdb.com/banners/v4/series/456813/posters/6a228015052c8.jpg",
+        "lastAiredDate": "2026-07-03",
+        "nextAiredDate": "2026-07-10",
+        "lastEpisode": {
+            "season": 1,
+            "episode": 6
+        },
+        "nextEpisode": {
+            "season": 1,
+            "episode": 7
+        },
+        "daysSinceLastAired": 4,
+        "daysUntilNextAired": 2,
+        "mostRecentLocal": {
+            "season": 1,
+            "episode": 6,
+            "title": "Possum",
+            "firstAired": "2026-07-02",
+            "runtime": 0
+        }
+    }
+]

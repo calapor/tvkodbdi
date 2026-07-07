@@ -165,6 +165,18 @@ function TVKodiApp() {
                     alt="tvkodbdi"
                     title="tvkodbdi"
                 />
+                {process.env.REACT_APP_DEMO === 'true' && (
+                    <span style={{
+                        display: 'inline-flex', alignItems: 'center',
+                        background: 'rgba(251,191,36,0.2)', color: '#d97706',
+                        border: '1px solid rgba(251,191,36,0.4)', borderRadius: '9999px',
+                        padding: '2px 10px', fontSize: '0.75rem', fontWeight: 600,
+                        letterSpacing: '0.1em', textTransform: 'uppercase',
+                        userSelect: 'none', marginLeft: '8px',
+                    }}>
+                        Demo
+                    </span>
+                )}
                 <div className="tab-buttons">
                     <button
                         className={activeTab === 'currentshows' ? 'tab active' : 'tab'}

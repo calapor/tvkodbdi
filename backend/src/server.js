@@ -10,6 +10,8 @@ const { getEpisodeRuntimeFromTMDb } = require('./thetmdb-client');
 const { responseCache, TTL } = require('./cache');
 const { runPool } = require('./concurrency');
 
+const DEMO_MODE = process.env.DEMO_MODE === 'true';
+
 const app = express();
 app.use(cors()); // allow React dev server to call your API
 
@@ -201,11 +203,12 @@ async function computeFavorites() {
     return results.filter(Boolean);
 }
 
-app.get('/user/favorites', (req, res) =>
-    serveWithCache(res, '/user/favorites', 'response:favorites', TTL.RESPONSE, computeFavorites, {
+app.get('/user/favorites', (req, res) => {
+    if (DEMO_MODE) return res.json(require('./demo/favorites.json'));
+    return serveWithCache(res, '/user/favorites', 'response:favorites', TTL.RESPONSE, computeFavorites, {
         refreshDynamic: refreshFavoriteDates,
-    })
-);
+    });
+});
 
 // ---------------------------------------------------------------------------
 // /user/lastplayed
@@ -259,15 +262,17 @@ async function computeLastPlayed() {
     return lastPlayedShows;
 }
 
-app.get('/user/lastplayed', (req, res) =>
-    serveWithCache(res, '/user/lastplayed', 'response:lastplayed', TTL.RESPONSE, computeLastPlayed)
-);
+app.get('/user/lastplayed', (req, res) => {
+    if (DEMO_MODE) return res.json(require('./demo/lastplayed.json'));
+    return serveWithCache(res, '/user/lastplayed', 'response:lastplayed', TTL.RESPONSE, computeLastPlayed);
+});
 
 // ---------------------------------------------------------------------------
 // /user/kodirefresh
 // ---------------------------------------------------------------------------
 
 app.get('/user/kodirefresh', async (req, res) => {
+    if (DEMO_MODE) return res.status(200).json({ status: 'OK' });
     try {
         console.log('WE GOT A BACKEND CALL');
         refreshKodiLibrary();
