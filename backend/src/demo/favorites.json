@@ -1254,22 +1254,6 @@
         }
     },
     {
-        "name": "\u05d0\u05d5\u05e8 \u05e8\u05d0\u05e9\u05d5\u05df",
-        "slug": "red-alert",
-        "status": "Ended",
-        "image": "https://artworks.thetvdb.com/banners/v4/series/468439/posters/699a040060b2c.jpg",
-        "lastAiredDate": "2025-10-15",
-        "nextAiredDate": null,
-        "lastEpisode": {
-            "season": 1,
-            "episode": 4
-        },
-        "nextEpisode": null,
-        "daysSinceLastAired": 265,
-        "daysUntilNextAired": null,
-        "mostRecentLocal": null
-    },
-    {
         "name": "PLUR1BUS",
         "slug": "wycaro",
         "status": "Continuing",
