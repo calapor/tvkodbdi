@@ -142,8 +142,14 @@ async function computeFavorites() {
             ]);
 
             const today = new Date();
-            const pastEpisodes = episodes.filter(ep => new Date(ep.aired) <= today).filter(ep => ep.seasonNumber !== 0);
-            const futureEpisodes = episodes.filter(ep => new Date(ep.aired) >= today).filter(ep => ep.seasonNumber !== 0);
+            const MIN_VALID_DATE = new Date('1980-01-01');
+            const datedEpisodes = episodes.filter(ep => {
+                if (!ep.aired || ep.seasonNumber === 0) return false;
+                const d = new Date(ep.aired);
+                return !isNaN(d) && d > MIN_VALID_DATE;
+            });
+            const pastEpisodes = datedEpisodes.filter(ep => new Date(ep.aired) <= today);
+            const futureEpisodes = datedEpisodes.filter(ep => new Date(ep.aired) >= today);
 
             let lastEpisode = null;
             if (pastEpisodes.length > 0) {
