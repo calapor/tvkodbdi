@@ -121,7 +121,7 @@ spec:
         script {
             env.FRONTEND_CONFIG_HASH = sh(
                 script: '''
-                    echo -n "${REACT_APP_SHOW_DOWNLOADED_COL}|${REACT_APP_SEARCH_LINK_1}|${REACT_APP_SEARCH_LINK_2}" | sha256sum | cut -d' ' -f1
+                    echo -n "${REACT_APP_SEARCH_LINK_1}|${REACT_APP_SEARCH_LINK_2}" | sha256sum | cut -d' ' -f1
                 ''',
                 returnStdout: true
             ).trim()
@@ -201,7 +201,7 @@ spec:
               --dockerfile "Dockerfile" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:${IMAGE_TAG}" \
               --destination "${REGISTRY}/${IMAGE_REPO}/frontend:main" \
-              --build-arg "REACT_APP_SHOW_DOWNLOADED_COL=${SHOW_DOWNLOADED_COL}" \
+              --build-arg "REACT_APP_SHOW_DOWNLOADED_COL=true" \
               --build-arg "REACT_APP_SEARCH_LINK_1=${SEARCH_LINK_1}" \
               --build-arg "REACT_APP_SEARCH_LINK_2=${SEARCH_LINK_2}" \
               --build-arg "REACT_APP_VERSION=${IMAGE_TAG} (#${BUILD_NUMBER})" \
