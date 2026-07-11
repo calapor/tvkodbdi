@@ -3,6 +3,9 @@
   "proxy": "http://localhost:3000",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "jest-junit": "^16.0.0"
+  },
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",

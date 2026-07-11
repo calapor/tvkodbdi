@@ -1,5 +1,7 @@
 ![tvkodbdi — media tracker & reminders](docs/tvkodbdi_white.jpg)
 
+[![Build Status](http://192.168.1.101:32010/buildStatus/icon?job=thetvdbkodi)](http://192.168.1.101:32010/job/thetvdbkodi)
+
 # TheTVDBKodi
 
 A self-hosted web dashboard that tracks your favourite TV shows by aggregating data from [TheTVDB](https://thetvdb.com), [TMDb](https://www.themoviedb.org), and your local [Kodi](https://kodi.tv) library. It shows upcoming episodes, recently aired episodes, ended shows, and active episode runtimes for shows in your Kodi favourites.
