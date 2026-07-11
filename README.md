@@ -1,6 +1,6 @@
 ![tvkodbdi — media tracker & reminders](docs/tvkodbdi_white.jpg)
 
-[![Build Status](http://192.168.1.101:32010/buildStatus/icon?job=thetvdbkodi)](http://192.168.1.101:32010/job/thetvdbkodi)
+[![Tests](https://github.com/calapor/tvkodbdi/actions/workflows/test.yml/badge.svg)](https://github.com/calapor/tvkodbdi/actions/workflows/test.yml)
 
 # TheTVDBKodi
 
