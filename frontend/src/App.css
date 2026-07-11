@@ -176,6 +176,26 @@
   font-weight: bold;
 }
 
+@media (max-width: 600px) {
+  .app-nav {
+    flex-wrap: wrap;
+  }
+
+  .tab-buttons {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-bottom: 2px;
+  }
+
+  .tab-buttons .tab {
+    font-size: 13px;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+}
+
 h1 {
   text-align: left;
   font-size: 2rem;
