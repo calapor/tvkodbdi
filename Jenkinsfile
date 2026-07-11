@@ -165,7 +165,7 @@ spec:
           // CI=false so react-scripts does not promote ESLint warnings to errors
           // (Jenkins sets CI=true); the image build (Docker/kaniko) builds the same way.
           sh 'CI=false pnpm --filter ./frontend run build'
-          sh 'CI=true pnpm --filter ./frontend exec react-scripts test --watchAll=false --passWithNoTests'
+          sh 'JEST_JUNIT_OUTPUT_DIR=test-results JEST_JUNIT_OUTPUT_NAME=junit.xml CI=true pnpm --filter ./frontend exec react-scripts test --watchAll=false --reporters=default --reporters=jest-junit'
           sh 'pnpm --filter ./backend run test'
         }
       }
@@ -298,6 +298,9 @@ spec:
   }
 
   post {
+    always {
+      junit allowEmptyResults: true, testResults: 'frontend/test-results/junit.xml'
+    }
     success {
       echo "Deployed thetvdbkodi @ ${env.IMAGE_TAG}"
     }
