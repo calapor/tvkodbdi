@@ -1,6 +1,7 @@
 ![tvkodbdi — media tracker & reminders](docs/tvkodbdi_white.jpg)
 
-[![Tests](https://github.com/calapor/tvkodbdi/actions/workflows/test.yml/badge.svg)](https://github.com/calapor/tvkodbdi/actions/workflows/test.yml)
+[![CI](https://github.com/calapor/tvkodbdi/actions/workflows/ci.yml/badge.svg)](https://github.com/calapor/tvkodbdi/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/github/checks-status/calapor/tvkodbdi/main?check=test&label=tests)](https://github.com/calapor/tvkodbdi/actions/workflows/ci.yml)
 
 # TheTVDBKodi
 
