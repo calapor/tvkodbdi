@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TVKodiApp from './components/tvkodbdi';
+import { TVKodiWelcomeWizard } from './components/TVKodiWelcomeWizard';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'dev';
 
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<TVKodiApp />} />
       </Routes>
+      <TVKodiWelcomeWizard />
       <div
         title="Running build"
         style={{
