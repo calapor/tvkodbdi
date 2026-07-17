@@ -13,7 +13,8 @@ const { runPool } = require('./concurrency');
 const DEMO_MODE = process.env.DEMO_MODE === 'true';
 
 const app = express();
-app.use(cors()); // allow React dev server to call your API
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
+app.use(cors({ origin: CORS_ORIGIN ? CORS_ORIGIN.split(',') : false }));
 
 const PORT = 3000;
 
@@ -289,6 +290,10 @@ app.get('/user/kodirefresh', async (req, res) => {
     res.status(200).json({ status: 'OK' });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}...`);
-});
+if (require.main === module) {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port ${PORT}...`);
+    });
+}
+
+module.exports = { app };
