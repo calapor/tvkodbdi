@@ -149,6 +149,7 @@ export default function CurrentShows({ favorites, loading, showDownloadedCol }) 
                     {favorites
                         .filter(series =>
                             series.nextAiredDate === null &&
+                            series.daysSinceLastAired !== null &&
                             series.daysSinceLastAired >= 0 &&
                             series.daysSinceLastAired <= 30
                         )
