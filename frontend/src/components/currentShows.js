@@ -80,7 +80,8 @@ export default function CurrentShows({ favorites, loading, showDownloadedCol }) 
                                                     style={{marginLeft: '6px', textDecoration: 'none'}}
                                                 >
                                                     <img src={series.image} alt={series.name}
-                                                         className="poster-thumb"/>
+                                                         className="poster-thumb"
+                                                         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/100x150?text=No+Image'; }}/>
                                                 </a>
                                             );
                                         })()}
@@ -148,19 +149,20 @@ export default function CurrentShows({ favorites, loading, showDownloadedCol }) 
                     {favorites
                         .filter(series =>
                             series.nextAiredDate === null &&
+                            series.daysSinceLastAired >= 0 &&
                             series.daysSinceLastAired <= 30
                         )
                         .sort((a, b) => a.daysSinceLastAired - b.daysSinceLastAired)
                         .map((series) => {
                             const today = new Date();
-                            const lastAiredDate = new Date(series.lastAiredDate);
+                            const lastAiredDate = series.lastAiredDate ? new Date(series.lastAiredDate) : null;
 
                             const lastSeason = series.lastEpisode?.season ?? null;
                             const lastEpisode = series.lastEpisode?.episode ?? null;
                             const localSeason = series.mostRecentLocal?.season ?? null;
                             const localEpisode = series.mostRecentLocal?.episode ?? null;
 
-                            const daysSinceLast = !isNaN(lastAiredDate)
+                            const daysSinceLast = lastAiredDate && !isNaN(lastAiredDate)
                                 ? Math.ceil((today - lastAiredDate) / (1000 * 60 * 60 * 24) * -1)
                                 : null;
 
@@ -181,7 +183,8 @@ export default function CurrentShows({ favorites, loading, showDownloadedCol }) 
                                                     style={{marginLeft: '6px', textDecoration: 'none'}}
                                                 >
                                                     <img src={series.image} alt={series.name}
-                                                         className="poster-thumb"/>
+                                                         className="poster-thumb"
+                                                         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/100x150?text=No+Image'; }}/>
                                                 </a>
                                             );
                                         })()}
@@ -248,18 +251,21 @@ export default function CurrentShows({ favorites, loading, showDownloadedCol }) 
                             series.nextAiredDate === null &&
                             series.status !== 'Ended'
                         )
-                        .sort((a, b) => a.daysSinceLastAired - b.daysSinceLastAired)
+                        .sort((a, b) => {
+                            if (a.daysSinceLastAired === null) return 1;
+                            if (b.daysSinceLastAired === null) return -1;
+                            return a.daysSinceLastAired - b.daysSinceLastAired;
+                        })
                         .map((series) => {
                             const today = new Date();
-                            const nextAiredDate = new Date(series.nextAiredDate);
-                            const lastAiredDate = new Date(series.lastAiredDate);
+                            const lastAiredDate = series.lastAiredDate ? new Date(series.lastAiredDate) : null;
 
                             let lastSeason = series.lastEpisode?.season ?? null;
                             let lastEpisode = series.lastEpisode?.episode ?? null;
                             let localSeason = series.mostRecentLocal?.season ?? null;
                             let localEpisode = series.mostRecentLocal?.episode ?? null;
 
-                            const daysSinceLast = !isNaN(lastAiredDate)
+                            const daysSinceLast = lastAiredDate && !isNaN(lastAiredDate)
                                 ? Math.ceil((today - lastAiredDate) / (1000 * 60 * 60 * 24) * -1)
                                 : null;
 
@@ -280,7 +286,8 @@ export default function CurrentShows({ favorites, loading, showDownloadedCol }) 
                                                     style={{marginLeft: '6px', textDecoration: 'none'}}
                                                 >
                                                     <img src={series.image} alt={series.name}
-                                                         className="poster-thumb"/>
+                                                         className="poster-thumb"
+                                                         onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/100x150?text=No+Image'; }}/>
                                                 </a>
                                             );
                                         })()}
