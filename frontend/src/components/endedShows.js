@@ -43,14 +43,14 @@ export default function EndedShows({ favorites, loading, showDownloadedCol }) {
                             .sort((a, b) => a.daysSinceLastAired - b.daysSinceLastAired)
                             .map((series) => {
                                 const today = new Date();
-                                const lastAiredDate = new Date(series.lastAiredDate);
+                                const lastAiredDate = series.lastAiredDate ? new Date(series.lastAiredDate) : null;
                                 let daysSinceLast = null;
                                 let lastSeason = series.lastEpisode?.season ?? null;
                                 let lastEpisode = series.lastEpisode?.episode ?? null;
                                 let localSeason = series.mostRecentLocal?.season ?? null;
                                 let localEpisode = series.mostRecentLocal?.episode ?? null;
 
-                                if (!isNaN(lastAiredDate)) {
+                                if (lastAiredDate && !isNaN(lastAiredDate)) {
                                     const diffTime = today - lastAiredDate;
                                     daysSinceLast = Math.ceil(diffTime / (1000 * 60 * 60 * 24) * -1);
                                 }
@@ -62,6 +62,7 @@ export default function EndedShows({ favorites, loading, showDownloadedCol }) {
                                                 src={series.image}
                                                 alt={`${series.name} poster`}
                                                 className="poster-thumb"
+                                                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/100x150?text=No+Image'; }}
                                             />
                                         </td>
                                         <td>{series.name}</td>

@@ -57,7 +57,7 @@ export default function ActiveRuntimes({runtimeData, runtimeLoading}) {
 
 
 
-                                let localImage = series.image;
+                                let localImage = image;
                                 let daysSinceLast = null;
                                 localName = series.showtitle
                                 if (!isNaN(lastplayedDate)) {
