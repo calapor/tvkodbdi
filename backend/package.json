@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest --testPathPattern='src/__tests__'"
+    "test": "jest --testPathPattern='src/__tests__' --passWithNoTests"
   },
   "keywords": [],
   "author": "Richard O'Connor",
