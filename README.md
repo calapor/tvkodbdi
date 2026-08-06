@@ -193,6 +193,10 @@ The frontend Nginx config proxies `/api/*` to `tvkodbdi-backend-service.default.
 
 The pipeline hashes the frontend config (search URLs) so a parameter change forces a fresh image and redeploy.
 
+## Monitoring
+
+The deployed service is monitored by **Uptime Kuma**, which runs in the `platform` namespace on the same k3s cluster. Uptime Kuma watches the tvkodbdi service endpoint and alerts when thresholds are breached (endpoint down or response time exceeded). The dashboard is at `http://192.168.1.101:30001`. Monitor configuration is managed through the Uptime Kuma web UI and is not stored in this repo.
+
 ## Build-time feature flags (frontend)
 
 These `REACT_APP_*` values are baked into the static build via Docker build args (`frontend/Dockerfile`), overridable through `docker-compose.yml` or Jenkins parameters.

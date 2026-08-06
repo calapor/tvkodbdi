@@ -87,3 +87,7 @@ Two pipelines are wired up (expanded in [`4-testing-strategy.md`](4-testing-stra
 - **Jenkins** ([`../../Jenkinsfile`](../../Jenkinsfile)) runs on a Kubernetes pod agent with `node`, `kaniko`, and `kubectl` containers, sized deliberately small for a memory-constrained (~3.7 Gi/node) home cluster. On `main`: install → verify (build + tests) → **Kaniko** builds and pushes the backend and frontend images in-cluster → **kubectl** `envsubst`s the manifests and applies them, waiting for the rollout. The frontend search-URL config is hashed so a parameter change forces a fresh image tag and redeploy. The demo instance is an opt-in parameter (`DEPLOY_DEMO`).
 
 Kaniko is used for image builds because it builds container images inside the cluster without a Docker daemon — a good fit for a Jenkins agent running as an unprivileged pod. For the local insecure registry, `KANIKO_EXTRA_ARGS` carries `--insecure --skip-tls-verify`.
+
+## Uptime Monitoring
+
+Production uptime is monitored by **Uptime Kuma**, which runs in the shared `platform` namespace on the same k3s cluster. It watches the deployed tvkodbdi service endpoint and alerts the operator when thresholds are breached (endpoint down or response time exceeded), complementing the frontend's own readiness probe on `/`. The Uptime Kuma dashboard is at `http://192.168.1.101:30001`; monitor configuration lives in Uptime Kuma's own database and is managed via its web UI rather than in this repo.
