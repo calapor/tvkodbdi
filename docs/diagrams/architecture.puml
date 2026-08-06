@@ -1,0 +1,54 @@
+@startuml architecture
+' tvkodbdi — request/aggregation architecture
+' Render: plantuml docs/diagrams/architecture.puml
+
+title tvkodbdi — Browser -> Nginx -> Express -> TheTVDB / TMDb / Kodi
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+
+actor "User" as user
+
+node "Browser" {
+  [React 19 SPA\n(Create React App)] as spa
+  database "localStorage\n(favorites, runtimeData)" as ls
+}
+
+node "Frontend container" {
+  [Nginx :80\nstatic build + /api proxy] as nginx
+}
+
+node "Backend container" {
+  [Express :3000\nserver.js] as express
+  [serveWithCache\nstale-while-revalidate] as swr
+  [runPool\nbounded concurrency] as pool
+  folder "File cache\nbackend/cache/*.json" as filecache
+}
+
+cloud "TheTVDB v4 API" as tvdb
+cloud "TMDb API" as tmdb
+node "Kodi (home LAN)\nJSON-RPC :8080" as kodi
+
+user --> spa
+spa <--> ls : hydrate / write-back
+spa --> nginx : GET /api/user/*
+nginx --> express : proxy (strip /api)
+
+express --> swr
+swr --> filecache : read/write TTL entries
+swr --> pool : compute (cold / background refresh)
+
+pool --> tvdb : series info, episodes, favorites\n(Bearer token, lazy auth + 401 retry)
+pool --> tmdb : episode runtime fallback
+pool --> kodi : GetTVShows, GetEpisodes,\nVideoLibrary.Scan
+
+note right of swr
+  HIT      : fresh -> return now
+  STALE    : aging -> return + bg refresh
+  EXPIRED  : stale -> return + bg refresh
+  MISS     : cold  -> compute inline
+  error    : fall back to stale entry
+end note
+
+@enduml
