@@ -136,17 +136,17 @@ async function getNextUnWatchedEpisode(tvshowid) {
             method: "VideoLibrary.GetEpisodes",
             params: {
                 tvshowid,
-                properties: ["season", "episode", "title", "firstaired", "file", "runtime", "playcount"],
+                properties: ["season", "episode", "title", "firstaired", "file", "runtime", "playcount", "streamdetails"],
                 sort: {
                     method: "season",
-                    order: "descending"
+                    order: "ascending"
                 },
                 filter: {
                     field: "playcount",
                     operator: "is",
                     value: "0"
                 },
-                limits: { start: 0, end: 1000 } // Increase if needed
+                limits: { start: 0, end: 1000 }
             },
             id: 1
         };
@@ -155,13 +155,21 @@ async function getNextUnWatchedEpisode(tvshowid) {
             const response = await kodi.post('', payload);
             const episodes = response.data?.result?.episodes || [];
 
-            // Sort by season DESC, then episode DESC
-            episodes.sort((a, b) => {
-                if (b.season !== a.season) return b.season - a.season;
-                return a.episode - b.episode;
-            });
+            const unwatched = episodes
+                .filter(ep => ep.season > 0)
+                .sort((a, b) => {
+                    if (a.season !== b.season) return a.season - b.season;
+                    return a.episode - b.episode;
+                });
 
-            return episodes[0] || null; // Most recent unwatched
+            const ep = unwatched[0] || null;
+
+            if (ep && (!ep.runtime || ep.runtime === 0)) {
+                const streamDuration = ep.streamdetails?.video?.[0]?.duration;
+                if (streamDuration > 0) ep.runtime = streamDuration;
+            }
+
+            return ep;
         } catch (error) {
             console.error("❌ Error fetching most recent episode:", error.message);
             return null;
